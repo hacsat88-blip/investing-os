@@ -16,3 +16,12 @@ AI運用：ChatGPTを原則とする指示へ変更済み。PROJECT-INSTRUCTIONS
 - 反映前バックアップ：`dev/audit/pre-deploy-2026-09-22/` に運用フォルダの旧3ファイル、`dev/audit/40-data-sources-v4.3-before-2026-09-22.md` に改修前の40。
 - 反映範囲：`investing_OS_v4.4/knowledge/` の該当3ファイルのみ。`app/` `examples/` `PROJECT-INSTRUCTIONS.md` `README.md` `AGENTS.md` は差分ゼロのため上書きせず。**`data/` `monitoring/` `backups/` `proposals/` `起動.command` は一切触っていない。**
 - 反映後確認：`diff -rq` で knowledge 完全一致、`data/current.json` は e6a080682a974194a867d384c1ed71a1 のまま。
+
+## 2026-09-22 フォルダ統合とgit導入
+- `investing_OS_data`（改修用）を廃止し、`investing_OS_v4.4` を唯一の正本フォルダに統合。`dev/` を移動、`data-snapshot-2026-09-21/` は `dev/archive/` へ退避。
+- `git init`（main、初回コミット 134c831）。`.gitignore` で `data/` `backups/` `monitoring/` `proposals/` `dev/archive/` `__pycache__` `.DS_Store` を除外。台帳はgit管理外。
+- 新規 `knowledge/80-repo-operations.md`（フォルダ運用とリポジトリ規約 v1）。`_このフォルダについて.md` を運用フォルダ用に全面差し替え。
+- 統合先でテスト再実行：test_upgrades 32件 OK、test_screening 16件 OK。前後で `data/current.json` のハッシュと `data/revisions` 一覧は不変を確認。
+- 事前バックアップ：`backups/1e5d4fabf63f424eb9dcba4f9bf68435.zip`。
+- READMEにあった「dev/tests 5件失敗」の既知課題は再現せず。テストは一時フォルダと fixtures を使う実装に既に直っており、実台帳を読むのは current.json の不変確認のみ。
+- 未処理：旧 `investing_OS_data`（54ファイル、v4.4と重複）と空の `investing_os` の削除。`.git` 配下にgitの一時ファイルが残存（このセッションのシェルに削除権限がないため）。
