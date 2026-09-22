@@ -41,8 +41,9 @@ AIはコードとナレッジをブランチ上で編集してよい。`data/` �
 
 ## 7. 残っている課題
 
-- 別媒体バックアップ（Time Machine等）は未設定。同一Mac内のZIPは故障・紛失の対策にならない（70-health-and-chatgpt.md）。
-- リモートリポジトリは未設定。gitはローカルのみで、Mac本体の故障には対応できない。
+- **別媒体バックアップ**：`dev/scripts/backup-to-drive.sh` で `backups/*.zip` と `data/current.json` をGoogle Drive（デスクトップ版の同期フォルダ）へ複製する。毎日16:00のlaunchdジョブ（`com.dcr.investingos.backup.plist`）。手順と設計理由は `dev/scripts/README.md`。**plistを置いた・loadしただけでは稼働証拠にならない。`backup-to-drive.log` の SUCCESS 記録で判定する**（70-health-and-chatgpt.md）。ZIPは暗号化されていない保有台帳なので、Drive上で共有リンクを作らず共有フォルダに置かない。
+- Time Machine等のローカル別媒体は未設定。Drive1系統のみが現状の別媒体。
+- リモートリポジトリは §8 で設定済み（コードとナレッジのみ。台帳は対象外）。
 
 ## 8. リモートリポジトリ（2026-09-22 設定）
 
