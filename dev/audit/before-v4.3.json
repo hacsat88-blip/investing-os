@@ -1,0 +1,11 @@
+{
+  "version": "695abccd49864c578dd64ebe20a47ed4",
+  "hashes": {
+    "holdings": "70b88ebb1c58e871b5f646a025b82dbec371dcb7f4e8c746009ab73b5b97ee1f",
+    "targets": "b7497b0fc7c7381d61d9be8bf77588cff527c91f1143a33b5abf74512eb85e28",
+    "analyses": "a472f622c54740ee18d85b0aede8d3c08f275fac25e042860a863139aa4e18d3",
+    "sources": "99f9e7ecc2632109afe0a6007719d835b4430389dfec00c3028664d168af68f1",
+    "news": "6cb8a26b5d04c2d23edd48cdadb2090a40b2dd161f36c177044aeda954f68d58",
+    "decisions": "48a8a5c6cd5d2205fa25b2f56c975c64ff18aba98293981219565f7f0486154a"
+  }
+}

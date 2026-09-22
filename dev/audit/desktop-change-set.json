@@ -1,0 +1,54 @@
+[
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/APP-LOCATION.md",
+    "action": "add"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/PROJECT-INSTRUCTIONS-v4.0.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/PROJECT-INSTRUCTIONS.md",
+    "action": "add"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/README.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/00-governance.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/10-portfolio-operations.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/20-security-analysis.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/30-monitoring-alerts.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/40-data-sources.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/50-qc-acceptance.md",
+    "action": "replace"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/60-decision-workbench.md",
+    "action": "add"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/knowledge/70-health-and-chatgpt.md",
+    "action": "add"
+  },
+  {
+    "target": "/Users/dcr3104/Desktop/investingOS_ChatGPT/起動.command",
+    "action": "add"
+  }
+]

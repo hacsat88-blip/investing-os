@@ -1,0 +1,12 @@
+# 台帳の正本はアプリの版管理（data/revisions + current.json）が持つ。gitでは管理しない
+data/
+backups/
+monitoring/
+proposals/
+
+# 作業物・OS
+dev/archive/
+__pycache__/
+*.pyc
+.DS_Store
+.venv/

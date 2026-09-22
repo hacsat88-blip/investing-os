@@ -1,0 +1,20 @@
+{
+  "backup": "/Users/dcr3104/Desktop/investingOS_ChatGPT/archive/pre-chatgpt-v4.3-20260913-140716",
+  "files": [
+    "APP-LOCATION.md",
+    "PROJECT-INSTRUCTIONS-v4.0.md",
+    "PROJECT-INSTRUCTIONS.md",
+    "README.md",
+    "knowledge/00-governance.md",
+    "knowledge/10-portfolio-operations.md",
+    "knowledge/20-security-analysis.md",
+    "knowledge/30-monitoring-alerts.md",
+    "knowledge/40-data-sources.md",
+    "knowledge/50-qc-acceptance.md",
+    "knowledge/60-decision-workbench.md",
+    "knowledge/70-health-and-chatgpt.md",
+    "起動.command"
+  ],
+  "verified": true,
+  "at": "2026-09-13T14:07:16.043592+09:00"
+}

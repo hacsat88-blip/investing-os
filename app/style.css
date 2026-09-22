@@ -1,0 +1,207 @@
+/* investingOS v4.4 — UI stylesheet
+   2026-09-20 復旧＋改善。v4.4アップグレードで失われたv4.3のスタイルを復元し、
+   可読性・操作性・ダークモード・アクセシビリティを強化。クラス名の契約は変更していない。 */
+
+:root{
+  --bg:#f2f5ef; --surface:#ffffff; --surface-2:#f8faf5;
+  --ink:#1d2b27; --ink-2:#4a5b55; --ink-3:#66776f;
+  --line:#d9e2d7; --line-2:#e8eee5;
+  --brand:#173e36; --brand-2:#244f40; --brand-3:#356850; --accent:#9ccc6b;
+  --warn-bg:#fff4e0; --warn-ink:#7a5410;
+  --danger:#8f4436; --ok:#2e6b4f;
+  --radius:12px; --radius-sm:8px;
+  --shadow:0 1px 2px rgba(23,62,54,.05), 0 4px 16px rgba(23,62,54,.05);
+  --tap:40px;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  font-size:15px; color:var(--ink); background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#131917; --surface:#1b2320; --surface-2:#212b27;
+    --ink:#e8efe9; --ink-2:#b3c2ba; --ink-3:#93a49b;
+    --line:#2f3d37; --line-2:#273330;
+    --brand:#0f2b26; --brand-2:#3d7a62; --brand-3:#4b9074;
+    --warn-bg:#3a2e17; --warn-ink:#f0d49a;
+    --danger:#d98a78; --ok:#7fc9a3;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg)}
+p{line-height:1.75;margin:0 0 .75em}
+h1{font-size:clamp(23px,3vw,34px);font-weight:650;letter-spacing:-.6px;margin:10px 0}
+h2{font-size:17px;font-weight:650;margin:0 0 16px;letter-spacing:-.2px}
+h3{font-size:15px;font-weight:650}
+
+/* ---------- header ---------- */
+header{
+  background:var(--brand);color:#fff;padding:20px 4%;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  position:sticky;top:0;z-index:30;
+}
+.brand{font-size:26px;font-weight:700;letter-spacing:-1px;line-height:1.1}
+.brand span{color:var(--accent)}
+.brand small{display:block;font-size:9px;letter-spacing:2.6px;font-weight:400;margin-top:6px;opacity:.75}
+#saveState{
+  font-size:12px;color:#dcece0;background:rgba(255,255,255,.1);
+  padding:7px 13px;border-radius:999px;white-space:nowrap;
+}
+
+main{max-width:1580px;padding:28px 4% 64px;margin:auto}
+
+/* ---------- intro ---------- */
+.intro{display:flex;align-items:center;justify-content:space-between;margin:4px 0 26px;gap:24px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--ink-3);font-weight:600;margin-bottom:0}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.card small{color:var(--ink-3);font-size:12px;font-weight:600}
+.card strong{display:block;font-size:28px;font-weight:550;margin-top:10px;letter-spacing:-1px;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.card p{font-size:11.5px;color:var(--ink-3);margin-bottom:0;margin-top:8px;line-height:1.6}
+
+/* ---------- overview ---------- */
+.overview{display:grid;grid-template-columns:1fr 1.2fr;gap:20px;margin-bottom:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.muted{font-size:12.5px;color:var(--ink-3);line-height:1.75}
+.barrow{display:grid;grid-template-columns:96px 1fr 110px;gap:14px;align-items:center;margin:13px 0;font-size:12.5px;
+  font-variant-numeric:tabular-nums}
+.track{height:10px;border-radius:5px;background:var(--line-2);overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--brand-2),var(--brand-3));border-radius:5px}
+#issues{font-size:12.5px;line-height:1.95;padding-left:20px;color:var(--warn-ink);margin:0}
+#issues:empty::after{content:"いま確認が必要な項目はありません。";color:var(--ink-3);display:block;margin-left:-20px}
+#message:not(:empty){
+  background:var(--warn-bg);color:var(--warn-ink);padding:14px 16px;border-radius:var(--radius-sm);
+  margin:12px 0;white-space:pre-wrap;border:1px solid rgba(0,0,0,.06);font-size:13px;line-height:1.7;
+}
+
+/* ---------- nav / buttons ---------- */
+nav{display:flex;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px;overflow-x:auto;scrollbar-width:thin}
+button,.button{
+  border:1px solid var(--line);color:var(--ink);background:var(--surface);
+  padding:0 15px;min-height:var(--tap);border-radius:9px;font:inherit;font-size:12.5px;font-weight:550;
+  cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  transition:background .12s ease,border-color .12s ease,transform .06s ease;
+}
+button:hover,.button:hover{background:var(--surface-2);border-color:var(--brand-2)}
+button:active,.button:active{transform:translateY(1px)}
+button:disabled{opacity:.4;cursor:default;transform:none}
+button.active,.primary{color:#fff;background:var(--brand-2);border-color:var(--brand-2)}
+button.primary:hover,button.active:hover{background:var(--brand-3);border-color:var(--brand-3)}
+/* ファイル選択の label は button と同じ当たり判定にする（クリックできない問題の対策） */
+.button{position:relative}
+.button input[type=file]{display:block;position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+:focus-visible{outline:3px solid var(--brand-3);outline-offset:2px;border-radius:6px}
+
+/* ---------- toolbar ---------- */
+.toolbar{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;padding:20px 0 12px;flex-wrap:wrap}
+.toolbar h2{margin-bottom:4px}
+.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+input,textarea,select{
+  font:inherit;font-size:12.5px;color:var(--ink);border:1px solid var(--line);
+  border-radius:7px;padding:9px 10px;background:var(--surface);min-height:var(--tap);
+}
+textarea{min-height:auto}
+input::placeholder,textarea::placeholder{color:var(--ink-3)}
+input:focus,textarea:focus,select:focus{outline:3px solid var(--brand-3);outline-offset:1px;border-color:var(--brand-3)}
+
+/* ---------- table ---------- */
+.grid{max-height:min(62vh,640px);overflow:auto;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface)}
+table{border-collapse:separate;border-spacing:0;font-size:13px;min-width:100%;text-align:left}
+thead{position:sticky;top:0;z-index:2}
+th{
+  background:var(--surface-2);color:var(--ink-2);font-weight:650;white-space:nowrap;
+  padding:12px 11px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.2px;
+}
+td{padding:5px;border-bottom:1px solid var(--line-2);vertical-align:top}
+tbody tr:nth-child(even){background:var(--surface-2)}
+tbody tr:hover{background:rgba(53,104,80,.07)}
+td input,td textarea{
+  min-width:118px;width:100%;border:1px solid transparent;background:transparent;
+  min-height:34px;padding:7px 8px;font-variant-numeric:tabular-nums;
+}
+td textarea{min-width:230px;min-height:42px;resize:vertical;line-height:1.6}
+td input:hover,td textarea:hover{border-color:var(--line)}
+td input:focus,td textarea:focus{background:var(--surface);border-color:var(--brand-3)}
+td:first-child input{min-width:112px;font-weight:600}
+td .delete{color:var(--danger);padding:0 11px;min-height:34px;border-color:transparent;background:transparent}
+td .delete:hover{background:rgba(143,68,54,.1);border-color:var(--danger)}
+
+/* ---------- save bar ---------- */
+.savebar{
+  display:flex;justify-content:space-between;gap:15px;align-items:center;
+  border-top:1px solid var(--line);padding:16px 0 4px;margin-top:14px;
+  position:sticky;bottom:0;background:var(--surface);z-index:5;
+}
+.savebar label{flex:1;font-size:12.5px;display:flex;align-items:center;gap:10px;font-weight:600}
+.savebar input{flex:1;margin:0;font-weight:400}
+.savebar .primary{min-width:200px}
+
+/* ---------- bottom ---------- */
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.bottom p{font-size:12.5px}
+.bottom .actions{margin:14px 0}
+details{margin-top:16px;font-size:12.5px}
+summary{cursor:pointer;min-height:32px;display:flex;align-items:center;font-weight:600}
+#history>div{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line-2);font-size:11.5px;align-items:center}
+footer{font-size:10.5px;color:var(--ink-3);text-align:center;padding:28px 4%;line-height:1.9}
+
+/* ---------- dialog ---------- */
+dialog{
+  max-width:980px;width:92%;max-height:86vh;border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px;background:var(--surface);color:var(--ink);box-shadow:0 24px 64px rgba(0,0,0,.28);
+}
+dialog::backdrop{background:rgba(23,62,54,.55);backdrop-filter:blur(2px)}
+dialog .actions{margin-top:20px;justify-content:flex-end}
+#diff{overflow:auto;max-height:55vh;margin-bottom:8px}
+#diff pre{font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;
+  background:var(--surface-2);padding:13px;border-radius:var(--radius-sm);border:1px solid var(--line-2)}
+#diff h3{font-size:14px;margin:18px 0 8px}
+
+/* ---------- insights ---------- */
+.insight-panel{margin-bottom:22px}
+.insight-panel nav{margin-bottom:22px;flex-wrap:wrap}
+.thesis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:18px 0}
+.thesis-card,.subpanel{border:1px solid var(--line);border-radius:10px;padding:17px;background:var(--surface-2)}
+.thesis-card{margin:0}
+.thesis-card summary{font-size:13.5px;font-weight:650;line-height:1.8}
+.thesis-card[open]{grid-column:1/-1;background:var(--surface)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.insight-field{display:flex;flex-direction:column;gap:7px;font-size:12.5px;font-weight:600}
+.insight-field textarea{min-height:78px;width:100%;resize:vertical;font-weight:400}
+.insight-field input{width:100%;font-weight:400}
+.mini-grid{overflow:auto;max-height:460px;margin:14px 0;border:1px solid var(--line);border-radius:var(--radius-sm)}
+.mini-grid th{position:sticky;top:0}
+.mini-grid td{padding:11px;min-width:92px;max-width:350px;white-space:normal;line-height:1.75}
+.subpanel h3{font-size:15px;margin-top:0}
+.subpanel p{font-size:12.5px;overflow-wrap:anywhere}
+.attention{color:var(--warn-ink);font-weight:650}
+.subpanel .actions label{font-size:12.5px;display:flex;flex-direction:column;gap:5px;font-weight:600}
+.insight-panel>.muted{margin-top:22px}
+
+/* ---------- v4.4 撤回条件ビルダー ---------- */
+.field-title{display:block;font-weight:650;margin-bottom:.35rem;font-size:12.5px}
+.rule-builder{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.45rem}
+.rule-builder select{flex:1 1 16rem}
+.rule-builder input{width:8.5rem}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .cards{grid-template-columns:1fr 1fr}
+  .overview,.bottom{grid-template-columns:1fr}
+  .toolbar,.savebar{align-items:stretch;flex-direction:column}
+  .savebar label{flex-direction:column;align-items:stretch;gap:6px}
+  .savebar .primary{width:100%}
+  .intro{align-items:flex-start}
+  header{gap:14px}
+  .panel{padding:17px}
+}
+@media(max-width:500px){
+  :root{font-size:16px}
+  .cards{grid-template-columns:1fr}
+  .intro{flex-direction:column}
+  main{padding:20px 5% 56px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
