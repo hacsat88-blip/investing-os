@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-09-24T08:56:50+09:00｜actor=ai:codex｜HANDOFF統合・runner判定・確認2件 ステップ2完了
+- 状態：DONE
+- 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
+- 完了したこと：`knowledge/10-portfolio-operations.md` の「2026-09-24追補」を確認。前回エラー2件はいずれも今回追加した検証に起因し、アプリ本体の検証条件を変更せず、テスト用の旧親manifest履歴とFX行のqualityだけを補正した。`test_upgrades.py` 41件、`test_screening.py` 16件が全件OK。`data/current.json` のSHA-256は前後とも `3a624ad301859baa6409bdd1694e7355dd5830f1ac6d8e244c2d0ee9549ed79a`。ブランチ `fix/step2-runner-handoff` をmainへマージ（`2402da182d89388b460bd57fdc6463f345101df0`）し、`dev/audit/DEPLOYMENT-STATUS.md` に記録した。
+- 残作業：なし。
+- 未確定事項：なし。
+- 触らないもの：`data/`、既存の `backups/`、`monitoring/state.json`、holdingsスキーマ、store.pyのactor検証。
+
 ## 2026-09-24T08:49:09+09:00｜actor=ai:codex｜HANDOFF統合・runner判定・確認2件 ステップ2
 - 状態：WAITING_AGENT
 - 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
