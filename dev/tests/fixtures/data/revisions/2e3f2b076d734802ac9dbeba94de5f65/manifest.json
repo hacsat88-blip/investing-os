@@ -1,0 +1,7 @@
+{
+  "version": "2e3f2b076d734802ac9dbeba94de5f65",
+  "parent": "aecc665a2db042e293317076fb528869",
+  "savedAt": "2026-09-13T01:17:48.709561+00:00",
+  "actor": "USER",
+  "reason": "移行時の値一致確認を備考へ記録"
+}

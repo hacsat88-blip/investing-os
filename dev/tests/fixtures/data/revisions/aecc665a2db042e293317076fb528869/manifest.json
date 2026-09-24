@@ -1,0 +1,7 @@
+{
+  "version": "aecc665a2db042e293317076fb528869",
+  "parent": null,
+  "savedAt": "2026-09-13T01:15:27.203517+00:00",
+  "actor": "MIGRATION",
+  "reason": "持込CSV10行を値変更なしで移行。現行保有・外部価格は未検証"
+}

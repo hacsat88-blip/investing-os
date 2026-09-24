@@ -23,6 +23,7 @@ import catalog  # noqa: E402
 import fundscreen  # noqa: E402
 import falsify  # noqa: E402
 import quotes as quotes_cli  # noqa: E402
+import runner_guard  # noqa: E402
 from store import Store, validate, SCHEMAS  # noqa: E402
 from insights import quote_status  # noqa: E402
 
@@ -308,6 +309,8 @@ class LedgerTests(unittest.TestCase):
                                  'quality': 'FACT', 'sourceId': 'SRC_IMPORT_20260912', 'note': ''})
         saved = self.store.commit(tables, self.state['version'], 'AI', '相場台帳の追加テスト')
         self.assertEqual(saved['meta']['schemaVersion'], '4.4')
+        self.assertEqual(saved['meta']['reason'], '相場台帳の追加テスト')
+        self.assertEqual(self.store.history()[0]['reason'], '相場台帳の追加テスト')
         self.assertEqual(len(saved['tables']['quotes']), 1)
         reread = Store(self.dir).read()
         self.assertEqual(len(reread['tables']['quotes']), 1)
@@ -325,6 +328,121 @@ class LedgerTests(unittest.TestCase):
         rewritten['decisions'][0]['proposal'] = '書き換え'
         with self.assertRaises(ValueError):
             self.store.commit(rewritten, after['version'], 'AI', '判断履歴の改変は拒否されるべき')
+
+    def test_us_tickers_and_fractional_quantity_are_preserved(self):
+        tables = json.loads(json.dumps(self.state['tables']))
+        source_id = tables['sources'][0]['id']
+        base = json.loads(json.dumps(tables['holdings'][0]))
+        base.update({'id': 'H_LMT', 'code': 'LMT', 'name': 'Lockheed Martin',
+                     'currency': 'USD', 'quantity': '0.5', 'price': '500', 'fx': '150',
+                     'costBasisJpy': '', 'marketValueJpy': '37500', 'pnlJpy': '',
+                     'sourceId': source_id})
+        tables['holdings'].append(base)
+        dotted = json.loads(json.dumps(base))
+        dotted.update({'id': 'H_BRKB', 'code': 'BRK.B', 'name': 'Berkshire Hathaway'})
+        tables['holdings'].append(dotted)
+        validate(tables)
+        rows = {row['id']: row for row in tables['holdings']}
+        self.assertEqual(rows['H_LMT']['code'], 'LMT')
+        self.assertEqual(rows['H_BRKB']['code'], 'BRK.B')
+        self.assertEqual(rows['H_LMT']['quantity'], '0.5')
+
+    def test_usd_quote_with_fx_calculates_and_missing_fx_does_not(self):
+        body = {'schemaVersion': 'quotes-input-v1', 'version': self.state['version'],
+                'sources': [{'id': 'SQ_US', 'kind': 'MARKET_DATA', 'title': 'US quote', 'uri': 'u',
+                             'retrievedAt': '2026-09-24T07:30:00+09:00',
+                             'dataAsOf': '2026-09-23', 'confidence': 'SINGLE_SOURCE', 'note': ''}],
+                'fx': [{'code': 'USDJPY', 'value': '150',
+                        'asOf': '2026-09-23T16:00:00-04:00',
+                        'quality': 'FACT', 'sourceId': 'SQ_US'}],
+                'quotes': [{'holdingId': 'H007', 'kind': 'PRICE', 'value': '40', 'currency': 'USD',
+                            'asOf': '2026-09-23T16:00:00-04:00',
+                            'quality': 'FACT', 'sourceId': 'SQ_US'}]}
+        tables, report = quotes_cli.ingest(self.state, body)
+        row = next(item for item in tables['holdings'] if item['id'] == 'H007')
+        self.assertEqual((row['marketValueJpy'], row['price'], row['fx']), ('114000', '40', '150'))
+        self.assertEqual(report['skipped'], [])
+
+        no_fx = dict(body, fx=[])
+        unchanged, missing_report = quotes_cli.ingest(self.state, no_fx)
+        missing = next(item for item in unchanged['holdings'] if item['id'] == 'H007')
+        self.assertEqual(missing['marketValueJpy'], self.state['tables']['holdings'][6]['marketValueJpy'])
+        self.assertIn('USDJPY', missing_report['skipped'][0]['reason'])
+
+    def test_us_market_timezone_offsets_are_accepted_verbatim(self):
+        source_id = self.state['tables']['sources'][0]['id']
+        rows = []
+        for index, offset in enumerate(('-04:00', '-05:00'), 1):
+            rows.append({'id': 'Q_US%d' % index, 'holdingId': 'H007', 'code': 'MUU',
+                         'kind': 'PRICE', 'value': '40', 'currency': 'USD',
+                         'asOf': '2026-11-01T16:00:00' + offset, 'retrievedAt': '',
+                         'quality': 'FACT', 'sourceId': source_id, 'note': ''})
+        tables = dict(self.state['tables'], quotes=rows)
+        validate(tables)
+        self.assertEqual([row['asOf'] for row in tables['quotes']],
+                         ['2026-11-01T16:00:00-04:00', '2026-11-01T16:00:00-05:00'])
+
+    def test_duplicate_edgar_accession_source_id_is_rejected(self):
+        tables = json.loads(json.dumps(self.state['tables']))
+        source = json.loads(json.dumps(tables['sources'][0]))
+        source['id'] = 'EDGAR-0000320193-26-000001'
+        tables['sources'].extend([source, json.loads(json.dumps(source))])
+        with self.assertRaisesRegex(ValueError, 'IDが空・重複・不正'):
+            validate(tables)
+
+
+class RunnerGuardTests(unittest.TestCase):
+    def setUp(self):
+        self.dir = Path(tempfile.mkdtemp(prefix='runner-guard-test-'))
+        self.addCleanup(shutil.rmtree, self.dir, True)
+        self.path = self.dir / 'state.json'
+        self.state = {
+            'lastAttemptAt': '2026-09-23T07:30:00+09:00',
+            'lastSuccessAt': '2026-09-23T07:31:00+09:00',
+            'lastStatus': 'SUCCESS',
+            'detail': '前回成功',
+            'cursors': {'edgar': 'cursor-1'},
+            'runners': {'0730': {'actor': 'ai:codex',
+                                 'registeredAt': '2026-09-23T00:00:00+09:00',
+                                 'registrationEvidence': 'user approval'}},
+        }
+        self.path.write_text(json.dumps(self.state), encoding='utf-8')
+
+    def test_matching_runner_returns_zero(self):
+        code, message = runner_guard.check(self.path, '0730', 'ai:codex')
+        self.assertEqual(code, 0)
+        self.assertIn('runner一致', message)
+
+    def test_mismatching_runner_returns_three(self):
+        before = self.path.read_bytes()
+        code, message = runner_guard.check(self.path, '0730', 'ai:other')
+        self.assertEqual(code, 3)
+        self.assertIn('runner不一致', message)
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_unregistered_slot_returns_four(self):
+        code, message = runner_guard.check(self.path, '0905', 'ai:codex')
+        self.assertEqual(code, 4)
+        self.assertIn('未登録', message)
+
+    def test_missing_state_returns_two_without_initializing(self):
+        missing = self.dir / 'missing.json'
+        code, message = runner_guard.check(missing, '0730', 'ai:codex', record=True)
+        self.assertEqual(code, 2)
+        self.assertIn('存在しないか形式不正', message)
+        self.assertFalse(missing.exists())
+
+    def test_record_changes_only_attempt_status_and_detail(self):
+        code, _ = runner_guard.check(
+            self.path, '0730', 'ai:other', record=True,
+            attempted_at='2026-09-24T07:30:00+09:00')
+        self.assertEqual(code, 3)
+        after = json.loads(self.path.read_text(encoding='utf-8'))
+        self.assertEqual(after['lastAttemptAt'], '2026-09-24T07:30:00+09:00')
+        self.assertEqual(after['lastStatus'], 'SKIPPED')
+        self.assertIn('runner不一致', after['detail'])
+        self.assertEqual(after['lastSuccessAt'], self.state['lastSuccessAt'])
+        self.assertEqual(after['cursors'], self.state['cursors'])
 
 
 if __name__ == '__main__':
