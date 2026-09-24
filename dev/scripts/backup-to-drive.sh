@@ -9,7 +9,7 @@ SRC="$HOME/Desktop/investing_OS_v4.4"
 
 # ▼ ここだけ自分の環境に合わせて書き換える（Google Drive デスクトップ版のパス）
 #   例: /Users/dcr3104/Library/CloudStorage/GoogleDrive-hacsat88@gmail.com/マイドライブ/investingOS-backups
-DEST="$HOME/Library/CloudStorage/GoogleDrive-hacsat88@gmail.com/マイドライブ/investingOS-backups"
+DEST="/Users/dcr3104/Library/CloudStorage/GoogleDrive-hacsat88@gmail.com/マイドライブ/investing0S_backup"
 
 LOG="$SRC/dev/scripts/backup-to-drive.log"
 stamp() { date "+%Y-%m-%dT%H:%M:%S%z"; }

@@ -25,7 +25,7 @@
 5. **テストを流す。** `python3 dev/tests/test_upgrades.py` と `python3 dev/tests/test_screening.py` が全件OKであること。1件でも失敗したら `main` にマージしない。
 6. 台帳が無傷か確認する。テスト前後で `data/current.json` のハッシュが変わっていないこと。
 7. `git switch main && git merge fix/<内容>`。コミットメッセージに何を変えたかを書く。
-8. `dev/audit/DEPLOYMENT-STATUS.md` に1行記録する（日付、変更、テスト結果、バックアップZIP名）。
+8. `dev/audit/DEPLOYMENT-STATUS.md` に1行記録する（日付、変更、テスト結果、バックアップZIP名）。複数AIにまたがる作業の状態は同じ場所の `dev/audit/HANDOFF.md` に残す（70）。
 
 ## 4. 起動時の事故防止
 
@@ -41,7 +41,7 @@ AIはコードとナレッジをブランチ上で編集してよい。`data/` �
 
 ## 7. 残っている課題
 
-- **別媒体バックアップ**：`dev/scripts/backup-to-drive.sh` で `backups/*.zip` と `data/current.json` をGoogle Drive（デスクトップ版の同期フォルダ）へ複製する。毎日16:00のlaunchdジョブ（`com.dcr.investingos.backup.plist`）。手順と設計理由は `dev/scripts/README.md`。**plistを置いた・loadしただけでは稼働証拠にならない。`backup-to-drive.log` の SUCCESS 記録で判定する**（70-health-and-chatgpt.md）。ZIPは暗号化されていない保有台帳なので、Drive上で共有リンクを作らず共有フォルダに置かない。
+- **別媒体バックアップ**：`dev/scripts/backup-to-drive.sh` で `backups/*.zip` と `data/current.json` をGoogle Drive（デスクトップ版の同期フォルダ）へ複製する。毎日16:00のlaunchdジョブ（`com.dcr.investingos.backup.plist`）。手順と設計理由は `dev/scripts/README.md`。**plistを置いた・loadしただけでは稼働証拠にならない。`backup-to-drive.log` の SUCCESS 記録で判定する**（70-health-and-agents.md）。ZIPは暗号化されていない保有台帳なので、Drive上で共有リンクを作らず共有フォルダに置かない。
 - Time Machine等のローカル別媒体は未設定。Drive1系統のみが現状の別媒体。
 - リモートリポジトリは §8 で設定済み（コードとナレッジのみ。台帳は対象外）。
 
@@ -52,7 +52,7 @@ AIはコードとナレッジをブランチ上で編集してよい。`data/` �
 **汎用ワークスペース `satoshi-dev` には置かない。** 理由は、可視性の切り替えや共同作業者の追加といった操作が1回あるだけで、金融・財産に関する記述まで一緒に露出するため。リポジトリを分ければ、その事故の影響範囲が投資OSだけに閉じる。
 
 - **push対象は88ファイル**（コード・ナレッジ・dev・設定）。`data/` `backups/` `monitoring/` `proposals/` `dev/archive/` は `.gitignore` で除外され、**保有数量・取得単価・評価額・損益・提案JSONはGitHubへ行かない**。
-- ただし `dev/audit/` のTradingView疎通記録に**保有銘柄のコードと社名（3905・8766・6857）が文脈として残る**。数量・金額はないが保有銘柄は推測できる。したがってこのリポジトリは**恒久的にプライベート**とし、公開へ切り替えない。共同作業者を追加しない。GitHub Pages等の公開機能を有効にしない。
+- ただし `dev/audit/` のTradingView疎通記録に**保有銘柄のコードと社名（3905・8766・6857）が文脈として残る**。数量・金額はないが保有銘柄は推測できる。`dev/audit/HANDOFF.md` も同じ扱いで、数量・金額を書かない。したがってこのリポジトリは**恒久的にプライベート**とし、公開へ切り替えない。共同作業者を追加しない。GitHub Pages等の公開機能を有効にしない。
 - 認証はHTTPS＋fine-grained Personal Access Token（対象を `investing-os` のみ、権限は Contents: Read and write だけ）。macOSキーチェーンに保存する。**PATをファイル・CSV・このリポジトリ内に書かない**（00-governance.md の認証情報を保存しない原則）。
 - `push --force` と履歴改変（`rebase -i`、`filter-branch` 等）は禁止。誤って機微情報をコミットした場合は、履歴改変で隠すのではなく、**その事実をユーザーに伝え、リポジトリ自体の作り直しとPAT再発行を選択肢として提示する**。
 - pushは改修が `main` にマージされた後に行う。台帳（`data/`）はpush対象外なので、その保護はZIPバックアップと別媒体で担保する（§7）。
