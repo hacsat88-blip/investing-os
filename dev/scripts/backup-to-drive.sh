@@ -5,7 +5,7 @@
 
 set -u
 
-SRC="$HOME/Desktop/investing_OS_v4.4"
+SRC="$HOME/Desktop/investing_OS"
 
 # ▼ ここだけ自分の環境に合わせて書き換える（Google Drive デスクトップ版のパス）
 #   例: /Users/dcr3104/Library/CloudStorage/GoogleDrive-hacsat88@gmail.com/マイドライブ/investingOS-backups

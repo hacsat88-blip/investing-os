@@ -11,7 +11,7 @@ Google Drive デスクトップ版（Google Drive for desktop）がインスト�
 ## 設定手順
 1. `backup-to-drive.sh` の `DEST=` を自分のパスに書き換える。確認コマンド：
    `ls ~/Library/CloudStorage/`
-2. 手で1回動かす：`~/Desktop/investing_OS_v4.4/dev/scripts/backup-to-drive.sh`
+2. 手で1回動かす：`~/Desktop/investing_OS/dev/scripts/backup-to-drive.sh`
    `backup-to-drive.log` に `SUCCESS` が出て、Drive側にZIPが並ぶことを確認する。
 3. 毎日16:00に自動実行する：
    ```
