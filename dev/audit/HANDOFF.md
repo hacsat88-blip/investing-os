@@ -43,3 +43,11 @@
 - 残作業：ローカルAIが、ユーザーからステップ2以降の実施を明示された場合に限り、未定義・拒否項目（market、actor、runner不一致判定、EDGAR accession番号による重複排除）を修正候補として扱う。
 - 未確定事項：FX欠損の相場取込は更新をSKIPPEDにするが、既存の評価額を空欄へ戻さないため、既存USD保有では古い評価額が残り得る。sourcesはaccession番号を自由文字列として保持できるが、専用列・重複排除はない。
 - 触らないもの：`data/current.json`、`data/revisions/`、全CSV、既存の定期タスク、`monitoring/state.json`、ステップ2〜4の実装。
+
+## 2026-09-25T20:50:00+09:00｜actor=ai:claude-code｜監視ダッシュボード配置 ステップ3
+- 状態：DONE
+- 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
+- 完了したこと：`v4.6-dashboard/` から `app/monitor_view.py`、`dev/tests/test_monitor_view.py`、`dev/tests/fixtures/monitor-samples/` を配置。テスト3種全件OK、台帳ハッシュ不変。mainへマージ（f7669c1）。定期タスク5件（0730/0905/1135/1540/2200）の手順4を monitor-run-v1 のJSON出力と `monitor_view.py` 実行を含む文面へ更新（スケジュールは不変）。本番の `monitoring/dashboard.html` を初回生成。
+- 残作業：次の定期実行（0730、9/26朝）でJSON出力とダッシュボード再生成が実際に行われるかを確認する。`v4.6-dashboard/` は配置元として残置（削除しない）。
+- 未確定事項：先行コミット b6431fd はメッセージと異なり `dev/scripts/backup-to-drive.err` の1行のみの変更だった（スクリプト本体は 54878ff で v4.6-dashboard/ に入っていた）。
+- 触らないもの：`data/`、holdings、定期タスクのスケジュールとworktree設定。
