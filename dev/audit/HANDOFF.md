@@ -4,6 +4,22 @@
 
 ---
 
+## 2026-09-25T20:00:51+09:00｜actor=ai:claude-cowork｜フォルダ改名（investing_OS_v4.x → investing_OS）のパス更新 完了
+- 状態：DONE
+- 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
+- 完了したこと：ユーザー指示「全て対応」により、作業ツリーにあった `knowledge/80-repo-operations.md` の未コミット改訂版（2026-09-25改名・版番号なし方針）を改訂版として採用。README.md:40 と `_setup/investingOS_ChatGPT用/` の3ファイルも `~/Desktop/investing_OS` へ更新。sed置換で外れた `backup-to-drive.sh` と `_setup` の `起動.command` の実行権限を755へ復元。ブランチ `chore/rename-folder`（`f0bc43c`、`27a54bc`）をmainへマージ（`744fe7756016508392e2702af2a6db6197fd32a1`）。再テスト：`test_upgrades.py` 41件OK、`test_screening.py` 16件OK。台帳CSV13件と `data/current.json` のSHA-256は前後不変。DEPLOYMENT-STATUSに記録。**pushは未完了**（Cowork側シェルにGitHub認証が無く失敗。ユーザーのターミナルで `git push origin main` が必要）。
+- 残作業（フォルダ外・ユーザー操作）：①`~/Library/LaunchAgents/com.dcr.investingos.backup.plist` をリポジトリ版で置き換えてunload→load、`dev/scripts/backup-to-drive.log` にSUCCESSが出るまで未稼働扱い（最終SUCCESSは2026-09-22）。②Claude Code定期タスク5件（investingos-monitor-0730/0905/1135/1540/2200）の作業フォルダを `investing_OS` に変更し、各枠の初回実行記録で確認。③`monitoring/state.json` のregistrationEvidenceは②の実行確認後に更新する。
+- 未確定事項：80の本文はユーザー提供版との照合をしていない（作業ツリー版を採用）。80 §5 が参照する `dev/tests/test_monitor_view.py` は未配置（`v4.6-dashboard/` 内）で、v4.6配置まではこのテストは実行できない。`knowledge/30`・`50` の未コミット変更、未追跡の `31-monitoring-dashboard.md`・`v4.6-dashboard/`・`.claude/` はv4.6作業分としてコミットしていない。
+- 触らないもの：`data/`、`backups/`、`monitoring/`、`proposals/`、`dev/archive/`、HANDOFF・DEPLOYMENT-STATUSの既存行、`v4.6-dashboard/`、`knowledge/30`・`50` の未コミット変更。
+
+## 2026-09-25T19:58:29+09:00｜actor=ai:claude-cowork｜フォルダ改名（investing_OS_v4.x → investing_OS）のパス更新
+- 状態：WAITING_USER
+- 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
+- 完了したこと：`app/store.py read` 成功。`app/store.py backup` → `backups/1e5d4fabf63f424eb9dcba4f9bf68435.zip`。ブランチ `chore/rename-folder` で `dev/scripts/`（backup-to-drive.sh のSRC、launchd plist の実行・errパス、README）を `~/Desktop/investing_OS` へ置換しコミット `f0bc43c`。app/・dev/tests/・起動.command（相対パス）・knowledge/（80以外）・.claude/ には該当なし。`test_upgrades.py` 41件OK、`test_screening.py` 16件OK。台帳CSV13件と `data/current.json` のSHA-256（`3a624ad3…6755`）は前後不変。コミット時に残った `.git` のロック・tmp_objを削除（ユーザー許可済み、fsck異常なし）。
+- 残作業：ユーザーから受け取る `knowledge/80-repo-operations.md` 改訂版で差し替え→コミット→mainへマージ→DEPLOYMENT-STATUS記録→push。
+- 未確定事項：作業ツリーの `knowledge/30`・`50`・`80` の未コミット変更と未追跡の `31-monitoring-dashboard.md`・`v4.6-dashboard/`・`.claude/` は本作業以前からあるv4.6作業分で、本ブランチでは未ステージのまま。フォルダ外の `~/Library/LaunchAgents/com.dcr.investingos.backup.plist` と Claude Code 定期タスク5件（cwd=investing_OS_v4.5）は未修正。
+- 触らないもの：`data/`、`backups/`、`monitoring/`、`proposals/`、`dev/archive/`、HANDOFF・DEPLOYMENT-STATUSの既存行、`v4.6-dashboard/`、README.md・`_setup/` の旧名（指示の対象外）。
+
 ## 2026-09-24T08:56:50+09:00｜actor=ai:codex｜HANDOFF統合・runner判定・確認2件 ステップ2完了
 - 状態：DONE
 - 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435

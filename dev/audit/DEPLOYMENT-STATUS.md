@@ -27,3 +27,4 @@ AI運用：ChatGPTを原則とする指示へ変更済み。PROJECT-INSTRUCTIONS
 - 未処理：旧 `investing_OS_data`（54ファイル、v4.4と重複）と空の `investing_os` の削除。`.git` 配下にgitの一時ファイルが残存（このセッションのシェルに削除権限がないため）。
 
 - 2026-09-24｜HANDOFF統合・runner判定・米国株受入テスト追加｜`test_upgrades.py` 41件OK、`test_screening.py` 16件OK｜backup: `1e5d4fabf63f424eb9dcba4f9bf68435.zip`｜merge: `2402da182d89388b460bd57fdc6463f345101df0`
+- 2026-09-25｜フォルダ改名（investing_OS_v4.x → ~/Desktop/investing_OS）：dev/scripts・README・_setupのパス更新、80差し替え、実行権限復元｜`test_upgrades.py` 41件OK、`test_screening.py` 16件OK、台帳CSV13件と current.json ハッシュ不変｜backup: `1e5d4fabf63f424eb9dcba4f9bf68435.zip`｜merge: `744fe7756016508392e2702af2a6db6197fd32a1`｜ai:claude-cowork｜未完了：origin へのpush（認証なしで失敗）、~/Library/LaunchAgents のplist再配置、Claude Code定期タスク5件の作業フォルダ変更（いずれもフォルダ外）
