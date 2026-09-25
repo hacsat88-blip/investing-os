@@ -1,11 +1,14 @@
 # 80 フォルダ運用とリポジトリ規約 v1
 
-2026-09-22制定。運用フォルダと改修フォルダを1つに統合し、`~/Desktop/investing_OS_v4.4` を唯一の正本フォルダとする。二重管理によるズレ（どちらが正本か分からなくなる事故）を止めるための規約である。
+2026-09-22制定。2026-09-25改訂：正本フォルダをバージョン無しの `~/Desktop/investing_OS` に改名。運用フォルダと改修フォルダを1つに統合し、`~/Desktop/investing_OS` を唯一の正本フォルダとする。二重管理によるズレ（どちらが正本か分からなくなる事故）を止めるための規約である。
 
 ## 1. 唯一の正本フォルダ
 
-`~/Desktop/investing_OS_v4.4` だけを使う。運用も改修も同じフォルダで行う。
-`~/Desktop/investing_os`（空）と `~/Desktop/investing_OS_data`（旧改修用）は役目を終えた。新しい更新先にしない。中身が残っている間も参照しない。
+`~/Desktop/investing_OS` だけを使う。運用も改修も同じフォルダで行う（旧名 investing_OS_v4.4 → v4.5 → v4.6 を2026-09-25に改名）。
+**フォルダ名に版番号を付けない。** 版は、コード・ナレッジはgitのコミット、台帳は `data/current.json` のversionで管理する。
+フォルダを参照する設定（ローカルAIの定期タスク、launchdのバックアップジョブ、`起動.command`、ローカルAIのプロジェクト設定）は、改名と同時に更新し、更新後の実行記録で確認する。設定を直しただけで稼働確認済みとしない。
+旧名のパスは過去の記録（HANDOFF・DEPLOYMENT-STATUSの過去行、dev/archive/、バックアップZIP）に残るが、履歴なので書き換えない。
+`~/Desktop/investing_OS_data`（旧改修用）は役目を終えた。新しい更新先にしない。旧 `~/Desktop/investing_os`（空）は、macOSの標準設定が大文字小文字を区別しないため新しい名前と衝突する。改名の前に別名へ退避し、参照しない。
 
 ## 2. 2つの正本を混同しない
 
@@ -22,7 +25,7 @@
 2. **台帳をバックアップする。** `python3 app/store.py backup` を実行し、出力されたZIPのパスを記録する。
 3. **ブランチを切る。** `git switch -c fix/<内容>`。`main` で直接編集しない。
 4. 改修する。`data/` `backups/` `monitoring/` `proposals/` は改修対象外。
-5. **テストを流す。** `python3 dev/tests/test_upgrades.py` と `python3 dev/tests/test_screening.py` が全件OKであること。1件でも失敗したら `main` にマージしない。
+5. **テストを流す。** `python3 dev/tests/test_upgrades.py`、`python3 dev/tests/test_screening.py`、`python3 dev/tests/test_monitor_view.py` が全件OKであること。1件でも失敗したら `main` にマージしない。
 6. 台帳が無傷か確認する。テスト前後で `data/current.json` のハッシュが変わっていないこと。
 7. `git switch main && git merge fix/<内容>`。コミットメッセージに何を変えたかを書く。
 8. `dev/audit/DEPLOYMENT-STATUS.md` に1行記録する（日付、変更、テスト結果、バックアップZIP名）。複数AIにまたがる作業の状態は同じ場所の `dev/audit/HANDOFF.md` に残す（70）。

@@ -37,4 +37,4 @@ AIは調査・分析・提案・助言の窓口です。Claude・ChatGPTのど�
 今回のローカルファイル更新と、AIサービス側（ChatGPT Project、Claude Project等）へのアップロードは別です。旧資料の「Project配置済み」「通知が稼働中」等は現在の事実として継承しません。旧通知の停止は未実施です。
 
 ## 正本を増やさない
-運用フォルダ ~/Desktop/investing_OS_v4.4 が唯一の入口です（旧入口 Desktop/investingOS_ChatGPT は2026-09-21に削除済み）。exports/の旧CSV、archive/、reference/は過去資料。最新データは常にアプリのcurrent.jsonを読むか、アプリから出力してください。ZIPは配布時点の控えであり、その後の自動同期先ではありません。
+運用フォルダ ~/Desktop/investing_OS が唯一の入口です（旧入口 Desktop/investingOS_ChatGPT は2026-09-21に削除済み）。exports/の旧CSV、archive/、reference/は過去資料。最新データは常にアプリのcurrent.jsonを読むか、アプリから出力してください。ZIPは配布時点の控えであり、その後の自動同期先ではありません。
