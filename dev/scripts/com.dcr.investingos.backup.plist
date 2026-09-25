@@ -8,7 +8,7 @@
   <array>
     <string>/bin/zsh</string>
     <string>--no-rcs</string>
-    <string>/Users/dcr3104/Desktop/investing_OS_v4.4/dev/scripts/backup-to-drive.sh</string>
+    <string>/Users/dcr3104/Desktop/investing_OS/dev/scripts/backup-to-drive.sh</string>
   </array>
   <key>StartCalendarInterval</key>
   <dict>
@@ -18,6 +18,6 @@
   <key>RunAtLoad</key>
   <false/>
   <key>StandardErrorPath</key>
-  <string>/Users/dcr3104/Desktop/investing_OS_v4.4/dev/scripts/backup-to-drive.err</string>
+  <string>/Users/dcr3104/Desktop/investing_OS/dev/scripts/backup-to-drive.err</string>
 </dict>
 </plist>
