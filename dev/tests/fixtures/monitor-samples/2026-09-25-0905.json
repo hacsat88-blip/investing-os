@@ -1,0 +1,9 @@
+{"schema":"monitor-run-v1","sample":true,"slot":"0905","actor":"ai:claude-code","startedAt":"2026-09-25T09:11:00+09:00","status":"SUCCESS","detail":"全保有の材料と価格を確認",
+"alerts":[
+ {"code":"3905","name":"サンプル銘柄B","stars":4,"direction":"POSITIVE","confidence":"SINGLE_SOURCE","what":"大口の受注を開示。金額は開示、収益寄与の時期は未開示。","publishedAt":"2026-09-24T15:30:00+09:00","sourceId":"SAMPLE-IR-001","url":"https://example.com/ir/001","checkNext":"計上期と粗利の開示を次回決算で確認"},
+ {"code":"8766","name":"サンプル銘柄A","stars":2,"direction":"NEUTRAL","confidence":"SINGLE_SOURCE","what":"業界全体の自然災害見込み損失に関する報道。個社の数値は未開示。","publishedAt":"2026-09-25T08:10:00+09:00","sourceId":"SAMPLE-NEWS-002","url":"https://example.com/news/002"}],
+"holdings":[
+ {"holdingId":"H-001","code":"8766","name":"サンプル銘柄A","currency":"JPY","price":{"value":3120,"asOf":"2026-09-24T15:30:00+09:00","quality":"FACT"},"prevClose":{"value":3098,"asOf":"2026-09-22T15:30:00+09:00","quality":"FACT"},"freshness":"FRESH","thesisStatus":"SUPPORTED"},
+ {"holdingId":"H-002","code":"3905","name":"サンプル銘柄B","currency":"JPY","price":{"value":1015,"asOf":"2026-09-24T15:30:00+09:00","quality":"FACT"},"prevClose":{"value":1048,"asOf":"2026-09-22T15:30:00+09:00","quality":"FACT"},"freshness":"FRESH","thesisStatus":"WATCH"},
+ {"holdingId":"H-003","code":"—","name":"サンプル投信（iDeCo）","currency":"JPY","price":null,"prevClose":null,"freshness":"NO_QUOTE","thesisStatus":null}],
+"errors":[]}
