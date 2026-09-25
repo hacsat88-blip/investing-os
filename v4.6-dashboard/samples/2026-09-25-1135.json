@@ -1,0 +1,4 @@
+{"schema":"monitor-run-v1","sample":true,"slot":"1135","actor":"ai:claude-code","startedAt":"2026-09-25T11:42:00+09:00","status":"PARTIAL","detail":"価格の一部が取得できず",
+"alerts":[{"code":"3905","name":"サンプル銘柄B","stars":null,"direction":"UNKNOWN","confidence":null,"what":"前場で急落。理由は未特定。","publishedAt":null,"sourceId":"SAMPLE-MKT-003","url":null}],
+"holdings":[{"holdingId":"H-002","code":"3905","name":"サンプル銘柄B","currency":"JPY","price":{"value":968,"asOf":"2026-09-25T11:30:00+09:00","quality":"EST"},"prevClose":{"value":1015,"asOf":"2026-09-24T15:30:00+09:00","quality":"FACT"},"freshness":"FRESH","thesisStatus":"WATCH"}],
+"errors":[{"route":"TradingView","message":"HTTP 429で気配値を取得できず。OHLCVで代替"}]}
