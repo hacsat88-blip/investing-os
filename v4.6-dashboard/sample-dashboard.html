@@ -1,0 +1,56 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:">
+<title>保有監視 09/25 12:00</title><style>
+:root{--fog:#EEF1F4;--paper:#FFFFFF;--ink:#1E2A36;--mute:#5E6B79;--line:#D3DAE2;--amber:#B97812;--pine:#2F7D5B;--crimson:#B23A48;--slate:#7A8594;
+font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",system-ui,sans-serif;color:var(--ink);background:var(--fog)}
+@media (prefers-color-scheme:dark){:root{--fog:#141B22;--paper:#1C252E;--ink:#E4EAF0;--mute:#9AA6B3;--line:#2E3A46;--amber:#E0A53D;--pine:#5DB38C;--crimson:#E07080;--slate:#8B96A3}}
+*{box-sizing:border-box}body{margin:0;background:var(--fog)}main{max-width:1040px;margin:0 auto;padding:24px 20px 48px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;border-bottom:2px solid var(--ink);padding-bottom:10px}
+h1{font-size:1.75rem;margin:0;letter-spacing:.04em}header p{margin:0;color:var(--mute);font-size:.85rem;font-variant-numeric:tabular-nums}
+h2{font-size:1.05rem;margin:32px 0 12px}h3{margin:0}
+.sample{background:var(--paper);border-left:4px solid var(--amber);padding:8px 12px;margin:16px 0 0;font-size:.9rem}
+.rail{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.rail::before{content:"";position:absolute;top:9px;left:10%;right:10%;height:2px;background:var(--line)}
+.stop{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 4px;gap:2px;font-size:.8rem}
+.dot{width:20px;height:20px;border-radius:50%;background:var(--paper);border:3px solid var(--slate);z-index:1;margin-bottom:6px}
+.st-success .dot{background:var(--pine);border-color:var(--pine)}.st-partial .dot{background:var(--paper);border-color:var(--amber);border-width:6px}
+.st-failed .dot{background:var(--crimson);border-color:var(--crimson)}.st-skipped .dot{border-style:dashed}
+.t{font-size:1.2rem;font-variant-numeric:tabular-nums}.n{color:var(--mute)}.s{font-weight:700}
+.st-failed .s{color:var(--crimson)}.st-partial .s{color:var(--amber)}.st-success .s{color:var(--pine)}
+.w,.a,.d{color:var(--mute);font-size:.72rem}.d{max-width:18ch}.tz{color:var(--mute);font-size:.8em}
+.alerts{display:flex;flex-direction:column;gap:0;background:var(--paper);border:1px solid var(--line)}
+.alert{padding:14px 16px;border-top:1px solid var(--line);display:grid;grid-template-columns:auto auto 1fr;gap:4px 12px;align-items:baseline}
+.alert:first-child{border-top:0}.alert h3,.alert p{grid-column:1/-1;margin:0}.alert h3{font-size:1rem}
+.alert.s5,.alert.s4{border-left:6px solid var(--amber)}
+.stars{color:var(--amber);letter-spacing:1px}.stars .off{color:var(--line)}.stars.unk{color:var(--mute);font-size:.8rem}
+.dir{font-size:.75rem;padding:1px 8px;border:1px solid currentColor;border-radius:10px}
+.d-positive{color:var(--pine)}.d-negative{color:var(--crimson)}.d-mixed{color:var(--amber)}.d-neutral,.d-unknown{color:var(--mute)}
+.meta{color:var(--mute);font-size:.8rem}.next{font-size:.85rem}a{color:inherit}
+.scroll{overflow-x:auto;background:var(--paper);border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:620px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:baseline}
+thead th{font-size:.75rem;color:var(--mute);font-weight:600}tbody th span{display:block;font-weight:400;color:var(--mute);font-size:.78rem}
+.num{text-align:right;font-variant-numeric:tabular-nums}.q{margin-left:6px;color:var(--mute)}
+.up{color:var(--pine)}.down{color:var(--crimson)}.unk{color:var(--mute);font-style:italic}
+.fr{font-size:.78rem}.f-fresh{color:var(--pine)}.f-aging{color:var(--amber)}.f-stale,.f-no_quote{color:var(--crimson);font-weight:700}
+.warn{background:var(--paper);border-left:4px solid var(--amber);padding:8px 12px;font-size:.88rem}
+.note,.empty{color:var(--mute);font-size:.82rem}.empty{padding:14px 16px;margin:0}
+.probs{padding-left:1.2em;font-size:.88rem}section h3{font-size:.95rem;margin:16px 0 6px}.probs.bad{color:var(--crimson)}
+a:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (max-width:640px){.rail{grid-template-columns:1fr;gap:10px}.rail::before{display:none}
+.stop{flex-direction:row;flex-wrap:wrap;text-align:left;align-items:center;gap:4px 10px;background:var(--paper);padding:8px 10px;border:1px solid var(--line)}
+.dot{margin:0}.d{max-width:none;flex-basis:100%}}
+</style></head><body><main>
+<header><h1>保有監視</h1><p>生成 2026-09-25 12:00　台帳版 1e5d4fab</p></header>
+<p class="sample">ダミーデータによる表示例です。実際の保有・材料ではありません。</p>
+<section aria-labelledby="h-rail"><h2 id="h-rail">各監視枠の直近の実行</h2><ol class="rail"><li class="stop st-skipped"><span class="dot" aria-hidden="true"></span><b class="t">07:30</b><span class="n">米国引け後</span><span class="s">スキップ</span><span class="w">09/25 07:36 <span class="tz">+09:00</span></span><span class="a">ai:claude-code</span><span class="d">USD建ての保有なし</span></li><li class="stop st-success"><span class="dot" aria-hidden="true"></span><b class="t">09:05</b><span class="n">寄り付き後</span><span class="s">成功</span><span class="w">09/25 09:11 <span class="tz">+09:00</span></span><span class="a">ai:claude-code</span><span class="d">全保有の材料と価格を確認</span></li><li class="stop st-partial"><span class="dot" aria-hidden="true"></span><b class="t">11:35</b><span class="n">前場終了後</span><span class="s">一部取得</span><span class="w">09/25 11:42 <span class="tz">+09:00</span></span><span class="a">ai:claude-code</span><span class="d">価格の一部が取得できず</span></li><li class="stop st-none"><span class="dot" aria-hidden="true"></span><b class="t">15:40</b><span class="n">大引け後</span><span class="s">未実行</span><span class="w"><span class="unk">実行記録なし</span></span><span class="a">ai:claude-code</span><span class="d"></span></li><li class="stop st-none"><span class="dot" aria-hidden="true"></span><b class="t">22:00</b><span class="n">PTS夜間</span><span class="s">未実行</span><span class="w"><span class="unk">実行記録なし</span></span><span class="a">ai:claude-code</span><span class="d"></span></li></ol></section>
+<section aria-labelledby="h-al"><h2 id="h-al">重要度の高い材料</h2><div class="alerts"><article class="alert s4"><span class="stars" aria-label="星4">★★★★<span class="off">★</span></span><span class="dir d-positive">好材料</span><h3>3905 サンプル銘柄B</h3><p>大口の受注を開示。金額は開示、収益寄与の時期は未開示。</p><p class="meta">公表 09/24 15:30 <span class="tz">+09:00</span>　確度 SINGLE_SOURCE　出典 <a href="https://example.com/ir/001" rel="noreferrer">SAMPLE-IR-001</a></p><p class="next">確認すること：計上期と粗利の開示を次回決算で確認</p></article><article class="alert s2"><span class="stars" aria-label="星2">★★<span class="off">★★★</span></span><span class="dir d-neutral">中立</span><h3>8766 サンプル銘柄A</h3><p>業界全体の自然災害見込み損失に関する報道。個社の数値は未開示。</p><p class="meta">公表 09/25 08:10 <span class="tz">+09:00</span>　確度 SINGLE_SOURCE　出典 <a href="https://example.com/news/002" rel="noreferrer">SAMPLE-NEWS-002</a></p></article><article class="alert s0"><span class="stars unk">未評価</span><span class="dir d-unknown">不明</span><h3>3905 サンプル銘柄B</h3><p>前場で急落。理由は未特定。</p><p class="meta">公表 <span class="unk">時刻不明</span>　確度 不明　出典 SAMPLE-MKT-003</p></article></div></section>
+<section aria-labelledby="h-h"><h2 id="h-h">保有の値動きと鮮度</h2><p class="warn">価格の基準日が保有ごとに異なります：2026-09-24(+09)、2026-09-25(+09)。同じ時点の値として比べないでください。</p>
+<div class="scroll"><table><thead><tr><th scope="col">銘柄</th><th scope="col">価格</th><th scope="col">基準時刻</th><th scope="col">前回比</th><th scope="col">鮮度</th><th scope="col">仮説</th></tr></thead>
+<tbody><tr><th scope="row">3905<span>サンプル銘柄B</span></th><td class="num">968 <small>JPY</small><small class="q">EST</small></td><td>09/25 11:30 <span class="tz">+09:00</span></td><td class="num"><span class="down">-4.63%</span></td><td><span class="fr f-fresh">新しい</span></td><td>注視</td></tr><tr><th scope="row">8766<span>サンプル銘柄A</span></th><td class="num">3,120 <small>JPY</small><small class="q">FACT</small></td><td>09/24 15:30 <span class="tz">+09:00</span></td><td class="num"><span class="up">+0.71%</span></td><td><span class="fr f-fresh">新しい</span></td><td>支持</td></tr><tr><th scope="row">—<span>サンプル投信（iDeCo）</span></th><td class="num"><span class="unk">取得不可</span></td><td><span class="unk">—</span></td><td class="num"><span class="unk">算出不可</span></td><td><span class="fr f-no_quote">相場なし</span></td><td><span class=unk>未登録</span></td></tr></tbody></table></div>
+<p class="note">評価額・数量・損益はこの画面に載せません。アプリの保有画面で確認してください。</p></section>
+<section aria-labelledby="h-p"><h2 id="h-p">取得できなかったもの</h2>
+<ul class="probs"><li><b>1135</b> TradingView：HTTP 429で気配値を取得できず。OHLCVで代替</li></ul>
+</section>
+</main></body></html>
