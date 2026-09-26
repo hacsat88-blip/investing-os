@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-09-26T14:57:39+09:00｜actor=ai:claude-cowork｜米国株リバランス第1段（MUU縮小→NVDA追加） 提案の補完・検査
+- 状態：WAITING_USER
+- 読んだ版：4630900243ee461cae6ff6a55bca1e10
+- 完了したこと：米国株3行（H013 FCX・H014 MUU・H015 QYLD、bucket=目標構成）の登録をユーザーが保存（親版 1e5d4fab…）。草案の空欄（version、baselineHash、MUUのholdingId=H014、bucket、sourceId、plan_itemsのid）を補完し、`app/store.py proposal` で検査済み → `proposals/proposal-us-rebal-20260926-checked.json`（変更3件：plans 1、plan_items 2）。比較機能の判定は「費用・税の入力不足」でready=false（手数料・税が未確定のため空欄のまま）。
+- 残作業：①ユーザー：アプリで差分確認・保存、手数料・税の見込みが分かれば入力、MU決算（2026-09-30）前の売買の実行判断。②会話AI：約定情報を受け取ったら decisions.csv の EXECUTED 追記案を作成。
+- 未確定事項：手数料・税、売却代金の受渡し前に買付できるか、売却代金とNVDA 1株の差が小さく手数料・スプレッドで不足しうる点、米国株3行の取得時FX（円建て取得原価・損益は空欄）。
+- 触らないもの：本提案（未承認）、`data/` の直接編集。
+
 ## 2026-09-26T14:41:14+09:00｜actor=ai:claude-chat（HANDOFF反映：ai:claude-cowork）｜米国株リバランス第1段（MUU縮小→NVDA追加）
 - 状態：WAITING_USER
 - 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
