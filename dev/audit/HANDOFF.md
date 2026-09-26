@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-09-26T14:41:14+09:00｜actor=ai:claude-chat（HANDOFF反映：ai:claude-cowork）｜米国株リバランス第1段（MUU縮小→NVDA追加）
+- 状態：WAITING_USER
+- 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
+- 完了したこと：会話AIが提案JSON草案 `proposals/proposal-us-rebal-20260926.json`（plans/plan_items、PROPOSED）を作成。判断メモとして、INTC・BEはAI枠の偏りを理由に見送り（台帳未登録）。
+- 残作業：①ローカルAI：草案の空欄（version、baselineHash、MUUのholdingId・bucket、sourceId）を補完し、TradingView取得分の出典行をsources案に追加、`app/store.py proposal` で検査。②ユーザー：アプリで差分確認・保存、MU決算（2026-09-30）前の売買の実行判断。③会話AI：約定情報を受け取ったら decisions.csv の EXECUTED 追記案を作成。
+- 未確定事項：米国株のholdings登録有無、手数料・税、売却代金の受渡し前に買付できるか。
+- 触らないもの：本提案（未承認）、`data/` の直接編集。
+
 ## 2026-09-25T20:00:51+09:00｜actor=ai:claude-cowork｜フォルダ改名（investing_OS_v4.x → investing_OS）のパス更新 完了
 - 状態：DONE
 - 読んだ版：1e5d4fabf63f424eb9dcba4f9bf68435
