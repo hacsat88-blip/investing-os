@@ -1,3 +1,15 @@
+# CHANGELOG
+
+## v4.7（2026-09-30）Claude一本化・さとし管理への移動
+- 運用AIをClaudeに一本化。指示文・knowledge（10・30・40・70・80）から Codex・ChatGPT の手順を削除し、実行環境を「ローカル実行（Claude Code・Cowork）」と「チャット実行（claude.ai）」に整理。actorは ai:claude-code / ai:claude-cowork / ai:claude-chat。
+- 削除：`_setup/investingOS_ChatGPT用/`（ChatGPT入口）、`v4.6-dashboard/`（app/へ統合済みの作業用コピー）、`dev/work/`（v4.3移行の使い捨てスクリプト）、`_このフォルダについて.md`（README.mdへ統合）。削除前の状態はタグ `pre-claude-only-20260930` とgit履歴に残る。
+- 追加：`CLAUDE.md`（Claude Code・Coworkの入口）、`.claude/skills/`（/monitor /holdings /research /scr /fnd /handoff /repo-change）。
+- 変更：アプリの表示名から ChatGPT を除去。`backup-to-drive.sh` は自分の場所から送り元を求めるよう変更（移動に強くした）。Drive未マウント判定の誤り（接尾辞の不一致）を修正。
+- フォルダを `~/Desktop/さとし管理/investing_OS` へ移動。
+- 台帳CSV・current.json・monitoring・proposals は変更なし。
+
+---
+
 # investingOS v4.5 変更一覧と残りの差分（2026-09-23）　status: PROPOSED
 
 v4.5の趣旨：①米国株・米国ETF対応 ②運用AIの製品非依存化（Codex / Claude / ChatGPT のどれでも同じ規則で動く）。

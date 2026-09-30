@@ -1,7 +1,7 @@
 """Deterministic engine for the investingOS ``scr/`` screening command.
 
 The engine never fetches market data.  It validates and ranks an explicitly
-provided snapshot so a ChatGPT/Web/MCP collection step can remain separate from
+provided snapshot so a Claude/Web/MCP collection step can remain separate from
 the local CSV ledger and from investment judgement.
 """
 from __future__ import annotations

@@ -59,7 +59,7 @@ quotes.csvの`asOf`はISO形式のみ（オフセット必須）。
 
 ## 4. 到達性の実測記録
 
-### 2026-09-23（actor=ai:claude-chat、会話AI・クラウド実行、NYSE:LMTで検証、新設）
+### 2026-09-23（actor=ai:claude-chat、チャット実行・クラウド、NYSE:LMTで検証、新設）
 
 - TradingView `get-financial-history`（NYSE:LMT、四半期）：取得成功。2025年2Q〜2026年2Qの売上・粗利・純利益・EPS・FCF・EBITDA・総負債。
 - SEC EDGAR：Web検索で原本URL（sec.gov/Archives/edgar/…）を取得し、10-Q本文の直取得にも成功。XBRLタグ付きの損益計算書・貸借対照表・CF計算書・セグメント情報を読めた。
@@ -105,7 +105,7 @@ quotes.csvの`asOf`はISO形式のみ（オフセット必須）。
 - Japannext PTS https://www.japannext.co.jp/ja/pts （夜間17:00〜翌6:00）
 - SEC EDGAR 企業検索 https://www.sec.gov/edgar/search/ （新設）
 - NYSE 取引時間・休場カレンダー https://www.nyse.com/markets/hours-calendars （新設。通常取引は米国東部時間9:30〜16:00、短縮取引日は13:00終了。2026-09-23到達確認）
-- ローカル定期タスクの実行条件：利用するAIの公式ドキュメントで確認し、70の記録に確認日と参照URLを残す（既知の参照例：ChatGPT/Codex https://learn.chatgpt.com/docs/automations?surface=app 、2026-09-13確認）
+- ローカル定期タスクの実行条件：利用するAIの公式ドキュメントで確認し、70の記録に確認日と参照URLを残す（Claude Codeの定期タスクはClaude公式ドキュメント https://docs.claude.com で確認する。旧Codex用の参照は2026-09-30に削除）
 
 2026-09-13の環境確認記録（actor=ai:codex、v4.3より保持）：この環境にEDINET DBツールの定義は存在する。実銘柄財務の呼出成功、株価/PTS全銘柄取得、旧Artifact DBとの接続は未検証。
 
