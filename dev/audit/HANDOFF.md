@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-09-30T19:41:20+09:00｜actor=ai:claude-cowork｜Claude一本化とさとし管理への移動（v4.7）
+- 状態：WAITING_USER
+- 読んだ版：b82643090fad4c6aa36c69edbe0fbaee
+- 完了したこと：Codex・ChatGPT向けの入口と記述を除去し、Claude専用に書き換え（PROJECT-INSTRUCTIONS.md、knowledge 10・30・40・70・80、README.md、CLAUDE.md新設、`.claude/skills/` 7件）。フォルダを `~/Desktop/さとし管理/investing_OS` へ移動。テスト全件OK、data/ 不変。記録は DEPLOYMENT-STATUS 2026-09-30 行。
+- 残作業：ユーザー：①ターミナルで3リポジトリを `git push origin main`（タグも `git push origin pre-claude-only-20260930`）。②Claude Codeの定期タスク5件（investingos-monitor-0730/0905/1135/1540/2200）の作業フォルダを新パスへ変更。③`dev/scripts/com.dcr.investingos.backup.plist` を ~/Library/LaunchAgents へコピーして unload→load（必要ならフルディスクアクセス）。④claude.ai Projectの指示欄を新しい PROJECT-INSTRUCTIONS.md に差し替え。ローカル実行：②の後、次の監視の実行記録（monitoring/runs/）で稼働を確認。
+- 未確定事項：定期タスクは2026-09-26 09:18以降の実行記録がない（旧パス investing_OS_v4.5 を作業フォルダにしたままの可能性。未確認）。launchdの自動バックアップは成功記録がない。
+- 触らないもの：`data/`、`backups/`、`monitoring/`、`proposals/`、既存のHANDOFF・DEPLOYMENT-STATUSの行。
+
 ## 2026-09-26T17:31:50+09:00｜actor=ai:claude-cowork｜防衛省版SBIR関連 ドローン株の調査候補（RQ014・RQ015）提案
 - 状態：WAITING_USER
 - 読んだ版：b82643090fad4c6aa36c69edbe0fbaee
