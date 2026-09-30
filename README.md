@@ -1,40 +1,66 @@
-# investingOS v4.4 — AI中立運用
+# investingOS — Claude専用の投資調査・保有管理
 
-AIは調査・分析・提案・助言の窓口です。Claude・ChatGPTのどちらでも、また併用でも運用できます。承認済みデータはCSV台帳へ保存します。AIの会話・画面・Artifact・Projectはいずれも運用上の正本として使用しません。Google Sheetsへの更新も行いません。
+Claudeは調査・分析・提案の窓口です。承認されたデータはCSV台帳へ保存します。Claudeの会話・Artifact・Project・メモリは、いずれも運用上の正本にしません。
+2026-09-30に運用AIをClaudeに一本化しました（Codex・ChatGPTとの併用は終了）。
 
 ## 最初に使うもの
-- AIの指示欄：PROJECT-INSTRUCTIONS.md の全文。
-- Projectナレッジ：knowledge/の12文書。
-- 相互編集アプリ：起動.command。http://127.0.0.1:8765 を開きます。
-- 保有・分析の正本：アプリフォルダのdata/current.jsonが指すCSV全12種。
+| 目的 | 使うもの |
+|---|---|
+| アプリを開く | `起動.command`（http://127.0.0.1:8765） |
+| Claude Code・Coworkの入口 | `CLAUDE.md`（このフォルダ）と `../CLAUDE.md`（さとし管理の共通ルール） |
+| claude.ai Projectの指示欄 | `PROJECT-INSTRUCTIONS.md` の全文 |
+| claude.ai Projectの資料 | `knowledge/` の14文書 |
+| 保有・分析の正本 | `data/current.json` が指す `data/revisions/<version>/` のCSV全12種 |
+| 全体の状態 | `../STATUS.md`（`python3 ../tools/status.py` で更新） |
 
-アプリの設置場所は既存の保存先と定期監視との互換性のため investingOS-v4.2 というフォルダ名を維持し、内容をv4.3へ更新しています。フォルダ名は正本の版番号ではありません。
+## Claudeの使い分け
+| 環境 | できること | actor |
+|---|---|---|
+| Claude Code（対話・定期タスク） | 定期監視、改修、提案JSONの作成と検査。スラッシュコマンドを使える | `ai:claude-code` |
+| Claude Cowork（フォルダ接続） | 調査、保有取込、HANDOFF反映、資料作成 | `ai:claude-cowork` |
+| claude.ai チャット・Project | 相談・調査・提案JSONの草案（Macの台帳は読めない） | `ai:claude-chat` |
 
-## 追加した機能
-① 銘柄ごとの投資仮説カード：保有理由、指標、変化、撤回条件を直接編集。
-② 調査の優先順位：結論を左右する未確認事項を、期限・影響・不確実性・緊急度・負担で整理。
-③ 重複・ストレス：タグの重複、取得済み構成情報の集計、価格・USD/JPY仮定の損失額表示。
-④ 提案比較：現状維持・追加資金・一部組替えを同じ基準の金額配分で比較。現保有やTargetは自動更新しません。
-⑥ 健康状態：保有確認、価格日付、監視の最終試行/成功、通知到達、現在版ZIPの検証、別媒体保存を区別。
+## スラッシュコマンド（Claude Code）
+| コマンド | 内容 | 手順の正本 |
+|---|---|---|
+| `/monitor 0905` | 保有監視の1回分（runner確認 → 取得 → レポート → ダッシュボード） | knowledge/30・31 |
+| `/holdings` | テキスト・スクショから保有を取り込み、提案JSONを作る | knowledge/10 |
+| `/research <銘柄>` | 一次資料ベースの銘柄調査 | knowledge/20 |
+| `/scr` `/fnd` | 東証の高回転・財務スクリーニング | knowledge/25・26 |
+| `/handoff` | HANDOFFに作業状態を追記 | knowledge/70 |
+| `/repo-change` | コード・ナレッジ改修の安全手順 | knowledge/80 |
 
-## AIとの使い方
-テキスト・スクショはAIへ。「AI用データを出力」した最新版も渡し、分析や提案JSONを作成します。アプリで更新案を取り込み、あなたが修正し、差分を承認して保存します。会話だけで保存済み・売買実行済みにはなりません。ローカル接続がある場合だけ直接ファイルを読む経路を利用できます。
-カードや表の編集は「変更理由」→「差分を確認して保存」。保存済みの値で優先順位・比較・集計を再計算します。ストレスは画面上の仮定計算です。
+会話の先頭行に `scr/` `fnd/` と書く従来の書き方も、そのまま使えます。
 
-## 追加した機能（v4.4）
-⑦ 相場台帳 quotes.csv：価格・基準価額・FXを出典と基準日時付きで別に積む。保有台帳の価格は差分承認で反映。`python3 app/quotes.py status` で鮮度とズレを点検。詳細は knowledge/28-quotes.md。
-⑧ 反証エンジン：撤回条件を機械可読にし、出典付き観測値で仮説を SUPPORTED / WATCH / CHALLENGED / UNTESTABLE に判定。`python3 app/falsify.py audit`。仮説カードは保有理由・期待・反対仮説をプルダウンで選び、撤回条件はテンプレ＋基準値で生成できる（自由記述も併用）。詳細は knowledge/27-falsification.md。
-⑨ 財務スクリーニング `fnd/`：法定開示の指標だけで調査候補を抽出。`scr/` の売買代金データが揃わない回でも動く別軸の入口。3市場の実行例は examples/fnd-3markets-result.md。詳細は knowledge/26-fundamental-screening.md。
+## 保存の流れ（どの環境でも同じ）
+1. Claudeが提案JSON（version・tables・reason）を作る。ローカル実行では `proposals/` に置き、`python3 app/store.py proposal` で検査する。
+2. あなたがアプリで差分を確認し、保存する（CSV_SYNCED）。
+3. 保存は売買の実行ではありません。約定はあなたが確認したものだけをEXECUTEDとして記録します。
 
-## 東証スクリーニング `scr/`
-会話の先頭行で `scr/` と入力すると、プライム・スタンダード・グロースの普通株を「20営業日累計売買代金÷時価総額」で各TOP5まで抽出する調査を開始します。`scr/ growth`、`scr/ prime top=10`、`scr/ mincap=100 maxcap=1000`（億円）に対応します。順位は投資評価ではありません。
+## フォルダの中身
+| 場所 | 役割 | git |
+|---|---|---|
+| `app/` | アプリ本体と検査スクリプト（store・quotes・falsify・screening・fundscreen・monitor_view・runner_guard） | ○ |
+| `knowledge/` | 業務手順（claude.ai Projectの資料と同じもの） | ○ |
+| `.claude/skills/` | Claude Codeのスラッシュコマンド | ○ |
+| `examples/` | `fnd/` の入出力例 | ○ |
+| `dev/tests/` | テスト（`test_upgrades.py`・`test_screening.py`・`test_monitor_view.py`）。一時フォルダを使い、実台帳を書き換えない | ○ |
+| `dev/audit/` | QA記録、反映履歴（`DEPLOYMENT-STATUS.md`）、引き継ぎ（`HANDOFF.md`） | ○ |
+| `dev/scripts/` | Google Driveへの別媒体バックアップ | ○ |
+| `data/` | **CSV台帳の正本。** 改修作業では触らない | × |
+| `backups/` | 保存ごとのZIP | × |
+| `monitoring/` | 監視の実行記録・状態・ダッシュボード | × |
+| `proposals/` | 台帳への更新案（PROPOSED） | × |
+| `dev/archive/` | 退避物（履歴） | × |
 
-市場データはアプリに内蔵していません。AI/Web/MCP等で出典付き入力を用意し、必要なら `python3 app/screening.py scr/ --input scr-input.json --format markdown` で検査・順位化します。入力なしの実行はDATA_REQUIREDを返し、取得済みとは表示しません。詳細はknowledge/25-screening.mdを参照してください。
+## 2つの正本を混同しない
+| 対象 | 正本 | 戻し方 |
+|---|---|---|
+| コード・ナレッジ・設定 | git（`main`）。リモートは非公開の `hacsat88-blip/investing-os` | `git restore` / `git revert` |
+| CSV台帳 | `data/current.json` が指す版 | アプリ画面の過去版復元 |
 
-## 初期状態と留保
-保有10件の数量・取得原価・目標配分・判断履歴は変更していません。仮説カードは未確認、構成情報は未登録、追加資金/組替え案は入力待ちです。初期の課税口座価格は9月11日、iDeCo評価は8月29日。最新保有・現金・他口座との照合が必要です。
-バックアップは保存時・起動時にMac内へ自動保存。別媒体保存とMacログイン時の自動起動は未設定。監視設定は1日4回ですが、実際の成功・スマホ到達は別途確認します。
-今回のローカルファイル更新と、AIサービス側（ChatGPT Project、Claude Project等）へのアップロードは別です。旧資料の「Project配置済み」「通知が稼働中」等は現在の事実として継承しません。旧通知の停止は未実施です。
+改修の手順は `knowledge/80-repo-operations.md` §3（Claude Codeでは `/repo-change`）。
 
-## 正本を増やさない
-運用フォルダ ~/Desktop/investing_OS が唯一の入口です（旧入口 Desktop/investingOS_ChatGPT は2026-09-21に削除済み）。exports/の旧CSV、archive/、reference/は過去資料。最新データは常にアプリのcurrent.jsonを読むか、アプリから出力してください。ZIPは配布時点の控えであり、その後の自動同期先ではありません。
+## 留保
+- 監視・バックアップは、設定しただけでは稼働扱いにしません。`monitoring/runs/` と `dev/scripts/backup-to-drive.log` の実行記録で判断します。
+- ローカルファイルの更新と、claude.ai Projectへの資料アップロードは別の作業です。

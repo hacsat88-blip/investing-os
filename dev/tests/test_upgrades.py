@@ -402,39 +402,39 @@ class RunnerGuardTests(unittest.TestCase):
             'lastStatus': 'SUCCESS',
             'detail': '前回成功',
             'cursors': {'edgar': 'cursor-1'},
-            'runners': {'0730': {'actor': 'ai:codex',
+            'runners': {'0730': {'actor': 'ai:claude-code',
                                  'registeredAt': '2026-09-23T00:00:00+09:00',
                                  'registrationEvidence': 'user approval'}},
         }
         self.path.write_text(json.dumps(self.state), encoding='utf-8')
 
     def test_matching_runner_returns_zero(self):
-        code, message = runner_guard.check(self.path, '0730', 'ai:codex')
+        code, message = runner_guard.check(self.path, '0730', 'ai:claude-code')
         self.assertEqual(code, 0)
         self.assertIn('runner一致', message)
 
     def test_mismatching_runner_returns_three(self):
         before = self.path.read_bytes()
-        code, message = runner_guard.check(self.path, '0730', 'ai:other')
+        code, message = runner_guard.check(self.path, '0730', 'ai:claude-cowork')
         self.assertEqual(code, 3)
         self.assertIn('runner不一致', message)
         self.assertEqual(self.path.read_bytes(), before)
 
     def test_unregistered_slot_returns_four(self):
-        code, message = runner_guard.check(self.path, '0905', 'ai:codex')
+        code, message = runner_guard.check(self.path, '0905', 'ai:claude-code')
         self.assertEqual(code, 4)
         self.assertIn('未登録', message)
 
     def test_missing_state_returns_two_without_initializing(self):
         missing = self.dir / 'missing.json'
-        code, message = runner_guard.check(missing, '0730', 'ai:codex', record=True)
+        code, message = runner_guard.check(missing, '0730', 'ai:claude-code', record=True)
         self.assertEqual(code, 2)
         self.assertIn('存在しないか形式不正', message)
         self.assertFalse(missing.exists())
 
     def test_record_changes_only_attempt_status_and_detail(self):
         code, _ = runner_guard.check(
-            self.path, '0730', 'ai:other', record=True,
+            self.path, '0730', 'ai:claude-cowork', record=True,
             attempted_at='2026-09-24T07:30:00+09:00')
         self.assertEqual(code, 3)
         after = json.loads(self.path.read_text(encoding='utf-8'))

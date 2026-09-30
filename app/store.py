@@ -79,7 +79,7 @@ def csv_bytes(table, rows):
 
 def validate(tables):
     if set(tables) != set(SCHEMAS):
-        raise ValueError('最新版の全台帳が必要です。ChatGPT用データを再出力してください')
+        raise ValueError('最新版の全台帳が必要です。AI用データを再出力してください')
     for table, rows in tables.items():
         if not isinstance(rows, list) or len(rows) > 10000:
             raise ValueError('行数が不正です')

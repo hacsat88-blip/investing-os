@@ -5,7 +5,8 @@
 
 set -u
 
-SRC="$HOME/Desktop/investing_OS"
+# このスクリプトの場所（dev/scripts/）から2階層上を送り元にする。フォルダを移動しても書き換え不要
+SRC="${0:A:h:h:h}"
 
 # ▼ ここだけ自分の環境に合わせて書き換える（Google Drive デスクトップ版のパス）
 #   例: /Users/dcr3104/Library/CloudStorage/GoogleDrive-hacsat88@gmail.com/マイドライブ/investingOS-backups
@@ -19,7 +20,7 @@ if [ ! -d "$SRC/backups" ]; then
 fi
 
 # Google Drive がマウントされていない時は何もしない（空フォルダを作って成功と誤認しないため）
-DRIVE_ROOT="${DEST%/investingOS-backups}"
+DRIVE_ROOT="${DEST:h}"
 if [ ! -d "$DRIVE_ROOT" ]; then
   echo "$(stamp) SKIPPED Google Driveが未マウント: $DRIVE_ROOT" >> "$LOG"; exit 0
 fi

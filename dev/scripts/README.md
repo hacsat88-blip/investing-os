@@ -11,7 +11,7 @@ Google Drive デスクトップ版（Google Drive for desktop）がインスト�
 ## 設定手順
 1. `backup-to-drive.sh` の `DEST=` を自分のパスに書き換える。確認コマンド：
    `ls ~/Library/CloudStorage/`
-2. 手で1回動かす：`~/Desktop/investing_OS/dev/scripts/backup-to-drive.sh`
+2. 手で1回動かす：`~/Desktop/さとし管理/investing_OS/dev/scripts/backup-to-drive.sh`
    `backup-to-drive.log` に `SUCCESS` が出て、Drive側にZIPが並ぶことを確認する。
 3. 毎日16:00に自動実行する：
    ```
@@ -20,13 +20,14 @@ Google Drive デスクトップ版（Google Drive for desktop）がインスト�
    ```
    停止は `launchctl unload ~/Library/LaunchAgents/com.dcr.investingos.backup.plist`。
    Macがスリープ中は実行されない。復帰後の次の定刻に実行される。
+   **launchdからデスクトップ配下のスクリプトを読むには、システム設定 → プライバシーとセキュリティ → フルディスクアクセスで `/bin/zsh` を許可する必要がある場合がある**（`backup-to-drive.err` に `can't open input file` が出るのはこの制限の典型的な症状。2026-09-30点検時に記録あり）。
 
 ## 設計の理由
 - **コピーのみ。`--delete` を使わない。** コピー先の古いZIPを消さない（00-governance.md の履歴を消さない原則）。
 - **`--ignore-existing`。** ZIPは内容が変わらないので、既にある版は送り直さない。
 - **Drive未マウント時は SKIPPED で終了。** 空フォルダを作って成功と誤認しないため。
 - **`current.json` を日付付きで残す。** どの版が当時の正本だったかを復元時に判断できるようにする。
-- ログに SUCCESS / SKIPPED / FAILED を書く。**plistを置いただけ、loadしただけは稼働証拠にならない**（70-health-and-chatgpt.md）。`backup-to-drive.log` の実行記録で判定する。
+- ログに SUCCESS / SKIPPED / FAILED を書く。**plistを置いただけ、loadしただけは稼働証拠にならない**（70-health-and-agents.md）。`backup-to-drive.log` の実行記録で判定する。
 
 ## 注意
 ZIPの中身は暗号化されていない保有台帳（数量・取得単価・評価額・損益）。**Googleドライブ上で共有リンクを作らない。共有フォルダに置かない。**

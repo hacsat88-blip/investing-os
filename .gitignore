@@ -11,4 +11,8 @@ __pycache__/
 .DS_Store
 .venv/
 dev/scripts/*.log
+dev/scripts/*.err
 Claude outputs/
+
+# Claude Codeの個人用許可設定（スキルは管理する）
+.claude/settings.local.json
