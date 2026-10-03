@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-03T15:03:14+09:00｜actor=ai:claude-cowork｜成長株スクリーニング結果の調査候補（RQ020〜RQ026）提案
+- 状態：WAITING_USER
+- 読んだ版：0818968ee041439e810caaa34c413ea9
+- 完了したこと：research.csvへ7件（日本株446A・6834、米国株SITM・HNGE・TGTX・AAOI・COHU）、sources.csvへ8件を追加する提案を作成し、`app/store.py proposal` の検査を通過（追加15件のみ、他台帳は不変）。成果物は `proposals/proposal-2026-10-03-research-checked.json`。data/current.json のハッシュは検査前後で不変。
+- 残作業：ユーザー：アプリで上記提案を読み込み、差分を確認して保存。ローカル実行：保存後に `app/store.py read` で再読し版を確認。各RQのdueOn（11/6〜12/20）の決算で撤回条件を判定。SITM・COHUはEDGAR原本で数値照合。
+- 未確定事項：日本株の株価指標は株ドラゴン日足からの自前計算（EST）。SITM・COHUの数値はQuartr要約のみ。保有SOXLと米国候補（SITM・AAOI・COHU）は半導体テーマが重なる。
+- 触らないもの：`data/`、holdings、theses、targets、plans。
+
 ## 2026-09-30T19:41:20+09:00｜actor=ai:claude-cowork｜Claude一本化とさとし管理への移動（v4.7）
 - 状態：WAITING_USER
 - 読んだ版：b82643090fad4c6aa36c69edbe0fbaee
