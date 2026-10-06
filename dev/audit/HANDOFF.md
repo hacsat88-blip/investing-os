@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-06T20:10:00+09:00｜actor=ai:antigravity｜Claude ↔ Antigravity 相互運用設定およびCodex記述整理 完了
+- 状態：WAITING_USER
+- 読んだ版：0818968ee041439e810caaa34c413ea9
+- 完了したこと：ユーザー方針「Codex運用取りやめ、Claude ↔ Antigravityの相互運用」に基づき、AGENTS.mdおよび.agents/skills/（handoff, holdings, monitor）を更新。actorを ai:antigravity に定義。テスト全件OK（41/16/14件）、台帳ハッシュ（d4c33942…）不変。ブランチ fix/antigravity-claude-interop を main へマージ。
+- 残作業：①ユーザーから提供されるEDINET / TradingView MCPの設定（アドレス/引数）を ~/.gemini/config/mcp_config.json へ反映する。②前セッションの残作業：アプリで提案（proposals/proposal-2026-10-03-research-checked.json）を読み込み差分確認・保存。
+- 未確定事項：なし
+- 触らないもの：`data/`、`backups/`、`monitoring/`、`proposals/`。
+
 ## 2026-10-03T15:03:14+09:00｜actor=ai:claude-cowork｜成長株スクリーニング結果の調査候補（RQ020〜RQ026）提案
 - 状態：WAITING_USER
 - 読んだ版：0818968ee041439e810caaa34c413ea9
