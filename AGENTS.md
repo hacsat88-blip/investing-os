@@ -15,7 +15,6 @@ actorは Antigravity=`ai:antigravity`、Claude=`ai:claude-code` / `ai:claude-cow
 ## 依頼と手順
 | 依頼 | コマンド | 読む文書 |
 |---|---|---|
-| 監視の1回分 | `/monitor <slot>` | 30・31・70 |
 | 保有のテキスト・スクショ | `/holdings` | 10 |
 | 銘柄・ETF・投信の調査 | `/research <銘柄>` | 20・40・27 |
 | 高回転スクリーニング | `/scr` または先頭行 `scr/` | 25 |
@@ -34,6 +33,6 @@ actorは Antigravity=`ai:antigravity`、Claude=`ai:claude-code` / `ai:claude-cow
 
 ## テスト
 ```
-python3 dev/tests/test_upgrades.py && python3 dev/tests/test_screening.py && python3 dev/tests/test_monitor_view.py
+python3 dev/tests/test_upgrades.py && python3 dev/tests/test_screening.py
 ```
 改修は `main` で直接行わず、`fix/<内容>` ブランチで行う。テスト前後で `data/current.json` のハッシュが変わらないこと。

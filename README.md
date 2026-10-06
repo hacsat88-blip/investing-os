@@ -16,14 +16,13 @@ Claudeは調査・分析・提案の窓口です。承認されたデータはCS
 ## Claudeの使い分け
 | 環境 | できること | actor |
 |---|---|---|
-| Claude Code（対話・定期タスク） | 定期監視、改修、提案JSONの作成と検査。スラッシュコマンドを使える | `ai:claude-code` |
+| Claude Code（対話・定期タスク） | 改修、提案JSONの作成と検査。スラッシュコマンドを使える | `ai:claude-code` |
 | Claude Cowork（フォルダ接続） | 調査、保有取込、HANDOFF反映、資料作成 | `ai:claude-cowork` |
 | claude.ai チャット・Project | 相談・調査・提案JSONの草案（Macの台帳は読めない） | `ai:claude-chat` |
 
-## スラッシュコマンド（Claude Code）
+## スラッシュコマンド（Claude Code / Antigravity）
 | コマンド | 内容 | 手順の正本 |
 |---|---|---|
-| `/monitor 0905` | 保有監視の1回分（runner確認 → 取得 → レポート → ダッシュボード） | knowledge/30・31 |
 | `/holdings` | テキスト・スクショから保有を取り込み、提案JSONを作る | knowledge/10 |
 | `/research <銘柄>` | 一次資料ベースの銘柄調査 | knowledge/20 |
 | `/scr` `/fnd` | 東証の高回転・財務スクリーニング | knowledge/25・26 |
@@ -40,16 +39,15 @@ Claudeは調査・分析・提案の窓口です。承認されたデータはCS
 ## フォルダの中身
 | 場所 | 役割 | git |
 |---|---|---|
-| `app/` | アプリ本体と検査スクリプト（store・quotes・falsify・screening・fundscreen・monitor_view・runner_guard） | ○ |
+| `app/` | アプリ本体と検査スクリプト（store・quotes・falsify・screening・fundscreen） | ○ |
 | `knowledge/` | 業務手順（claude.ai Projectの資料と同じもの） | ○ |
 | `.claude/skills/` | Claude Codeのスラッシュコマンド | ○ |
 | `examples/` | `fnd/` の入出力例 | ○ |
-| `dev/tests/` | テスト（`test_upgrades.py`・`test_screening.py`・`test_monitor_view.py`）。一時フォルダを使い、実台帳を書き換えない | ○ |
+| `dev/tests/` | テスト（`test_upgrades.py`・`test_screening.py`）。一時フォルダを使い、実台帳を書き換えない | ○ |
 | `dev/audit/` | QA記録、反映履歴（`DEPLOYMENT-STATUS.md`）、引き継ぎ（`HANDOFF.md`） | ○ |
 | `dev/scripts/` | Google Driveへの別媒体バックアップ | ○ |
 | `data/` | **CSV台帳の正本。** 改修作業では触らない | × |
 | `backups/` | 保存ごとのZIP | × |
-| `monitoring/` | 監視の実行記録・状態・ダッシュボード | × |
 | `proposals/` | 台帳への更新案（PROPOSED） | × |
 | `dev/archive/` | 退避物（履歴） | × |
 
@@ -59,8 +57,8 @@ Claudeは調査・分析・提案の窓口です。承認されたデータはCS
 | コード・ナレッジ・設定 | git（`main`）。リモートは非公開の `hacsat88-blip/investing-os` | `git restore` / `git revert` |
 | CSV台帳 | `data/current.json` が指す版 | アプリ画面の過去版復元 |
 
-改修の手順は `knowledge/80-repo-operations.md` §3（Claude Codeでは `/repo-change`）。
+改修の手順は `knowledge/80-repo-operations.md` §3（Claude Code / Antigravity では `/repo-change`）。
 
 ## 留保
-- 監視・バックアップは、設定しただけでは稼働扱いにしません。`monitoring/runs/` と `dev/scripts/backup-to-drive.log` の実行記録で判断します。
+- バックアップは、設定しただけでは稼働扱いにしません。`dev/scripts/backup-to-drive.log` の実行記録で判断します。
 - ローカルファイルの更新と、claude.ai Projectへの資料アップロードは別の作業です。

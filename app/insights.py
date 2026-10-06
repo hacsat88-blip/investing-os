@@ -209,21 +209,11 @@ def health(store, state, at=None):
                 ok=meta['version']==state['version'] and all(digest(z.read(k+'.csv'))==v for k,v in state['meta']['hashes'].items())
                 backup_status='VERIFIED' if ok and z.testzip() is None else 'FAILED'
         except Exception:backup_status='FAILED'
-    monitoring={'status':'UNVERIFIED','lastAttemptAt':None,'lastSuccessAt':None,'detail':'実行証拠がありません'}
-    path=store.root/'monitoring/state.json'
-    if path.exists():
-        try:
-            raw=json.loads(path.read_text())
-            valid=raw.get('lastStatus') in ('SUCCESS','PARTIAL','FAILED','SKIPPED') and parse_date(raw.get('lastAttemptAt','')) is not None
-            report=raw.get('reportPath','');resolved=(store.root/'monitoring'/report).resolve()
-            valid=valid and bool(report) and (store.root/'monitoring').resolve() in resolved.parents and resolved.is_file()
-            if valid:monitoring={'status':raw['lastStatus'],'lastAttemptAt':raw.get('lastAttemptAt'),'lastSuccessAt':raw.get('lastSuccessAt'),'detail':raw.get('detail',''),'reportPath':report}
-        except Exception:monitoring['detail']='監視状態ファイルを検証できません'
     confirmations={}
     for subject in ('HOLDINGS','NOTIFICATION','EXTERNAL_BACKUP'):
         found=[r for r in state['tables']['checks'] if r['subject']==subject]
         confirmations[subject]=max(found,key=lambda r:r['checkedAt'],default=None)
-    return {'prices':rows,'backup':backup_status,'backupVersion':state['version'],'monitoring':monitoring,'confirmations':confirmations,'evaluatedAt':at.isoformat(),'staleThresholdDays':7}
+    return {'prices':rows,'backup':backup_status,'backupVersion':state['version'],'monitoring':None,'confirmations':confirmations,'evaluatedAt':at.isoformat(),'staleThresholdDays':7}
 
 
 # --- v4.4: 相場台帳（quotes.csv）の鮮度・整合チェック ------------------------

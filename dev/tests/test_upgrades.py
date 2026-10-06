@@ -23,7 +23,6 @@ import catalog  # noqa: E402
 import fundscreen  # noqa: E402
 import falsify  # noqa: E402
 import quotes as quotes_cli  # noqa: E402
-import runner_guard  # noqa: E402
 from store import Store, validate, SCHEMAS  # noqa: E402
 from insights import quote_status  # noqa: E402
 
@@ -389,60 +388,6 @@ class LedgerTests(unittest.TestCase):
         tables['sources'].extend([source, json.loads(json.dumps(source))])
         with self.assertRaisesRegex(ValueError, 'IDが空・重複・不正'):
             validate(tables)
-
-
-class RunnerGuardTests(unittest.TestCase):
-    def setUp(self):
-        self.dir = Path(tempfile.mkdtemp(prefix='runner-guard-test-'))
-        self.addCleanup(shutil.rmtree, self.dir, True)
-        self.path = self.dir / 'state.json'
-        self.state = {
-            'lastAttemptAt': '2026-09-23T07:30:00+09:00',
-            'lastSuccessAt': '2026-09-23T07:31:00+09:00',
-            'lastStatus': 'SUCCESS',
-            'detail': '前回成功',
-            'cursors': {'edgar': 'cursor-1'},
-            'runners': {'0730': {'actor': 'ai:claude-code',
-                                 'registeredAt': '2026-09-23T00:00:00+09:00',
-                                 'registrationEvidence': 'user approval'}},
-        }
-        self.path.write_text(json.dumps(self.state), encoding='utf-8')
-
-    def test_matching_runner_returns_zero(self):
-        code, message = runner_guard.check(self.path, '0730', 'ai:claude-code')
-        self.assertEqual(code, 0)
-        self.assertIn('runner一致', message)
-
-    def test_mismatching_runner_returns_three(self):
-        before = self.path.read_bytes()
-        code, message = runner_guard.check(self.path, '0730', 'ai:claude-cowork')
-        self.assertEqual(code, 3)
-        self.assertIn('runner不一致', message)
-        self.assertEqual(self.path.read_bytes(), before)
-
-    def test_unregistered_slot_returns_four(self):
-        code, message = runner_guard.check(self.path, '0905', 'ai:claude-code')
-        self.assertEqual(code, 4)
-        self.assertIn('未登録', message)
-
-    def test_missing_state_returns_two_without_initializing(self):
-        missing = self.dir / 'missing.json'
-        code, message = runner_guard.check(missing, '0730', 'ai:claude-code', record=True)
-        self.assertEqual(code, 2)
-        self.assertIn('存在しないか形式不正', message)
-        self.assertFalse(missing.exists())
-
-    def test_record_changes_only_attempt_status_and_detail(self):
-        code, _ = runner_guard.check(
-            self.path, '0730', 'ai:claude-cowork', record=True,
-            attempted_at='2026-09-24T07:30:00+09:00')
-        self.assertEqual(code, 3)
-        after = json.loads(self.path.read_text(encoding='utf-8'))
-        self.assertEqual(after['lastAttemptAt'], '2026-09-24T07:30:00+09:00')
-        self.assertEqual(after['lastStatus'], 'SKIPPED')
-        self.assertIn('runner不一致', after['detail'])
-        self.assertEqual(after['lastSuccessAt'], self.state['lastSuccessAt'])
-        self.assertEqual(after['cursors'], self.state['cursors'])
 
 
 if __name__ == '__main__':
