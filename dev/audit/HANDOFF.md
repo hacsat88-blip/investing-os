@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-06T22:05:00+09:00｜actor=ai:antigravity｜監視機能（monitoring）の完全除去および関連ドキュメント・テスト整理 完了
+- 状態：WAITING_USER
+- 読んだ版：0818968ee041439e810caaa34c413ea9
+- 完了したこと：ユーザー指示「監視機能は不要なので機能そのものを除去」に基づき、監視関連コード（runner_guard.py, monitor_view.py, test_monitor_view.py）、スキル（monitor）、ナレッジ（30, 31）、実データ（monitoring/）を dev/archive/ へ退避。insightsの健康表示から監視項目を整理。README, AGENTS, PROJECT-INSTRUCTIONSを更新。テスト全件OK（test_upgrades 36件, test_screening 16件）、台帳ハッシュ（d4c33942…）不変。ブランチ fix/remove-monitoring-feature を main へマージ。
+- 残作業：①米国株3銘柄（FCX, IonQ, SOXL）の取得時為替または約定円代金の確認と損益確定提案の作成。②proposals/ 内の保留提案の確認と整理。③UI/UX改善提案の検討。
+- 未確定事項：なし。
+- 触らないもの：`data/`、`backups/`、`proposals/`。
+
 ## 2026-10-06T20:10:00+09:00｜actor=ai:antigravity｜Claude ↔ Antigravity 相互運用設定およびCodex記述整理 完了
 - 状態：WAITING_USER
 - 読んだ版：0818968ee041439e810caaa34c413ea9
