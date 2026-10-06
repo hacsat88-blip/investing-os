@@ -10,12 +10,11 @@ slot は `0730` `0905` `1135` `1540` `2200` のいずれか。不明・範囲外
 
 ## 1. 実行者の確認（最初に必ず）
 ```
-python3 app/runner_guard.py check --slot <slot> --actor ai:Codex --record
+python3 app/runner_guard.py check --slot <slot> --actor ai:antigravity --record
 ```
 - 終了コード 0：続行。
-- 3（runner不一致）/ 4（未登録）：SKIPPEDとして記録済み。取得・通知・カーソル更新をせずに終了し、理由を1行で報告する。
+- 3（runner不一致）/ 4（未登録）：SKIPPEDとして記録済み。取得・通知・カーソル更新をせずに終了し、理由を1行で報告する（当枠の担当が別AI等の場合、重複実行を防ぐためSKIPPEDとなるのが正常）。
 - 2：state.jsonの異常。何も書き換えずに障害として報告する。
-- Coworkから手動で実行する場合は actor を `ai:Codex-cowork` にする（登録が違えばSKIPPEDになるのが正しい動き）。
 
 ## 2. 実行条件
 - 日本の枠：JPXカレンダーで取引日を確認する。休場ならSKIPPED。

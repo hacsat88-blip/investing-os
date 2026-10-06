@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: investingOSの作業状態をdev/audit/HANDOFF.mdに追記し、次のCodexセッションが再開できるようにする。複数回にまたがる作業の区切りで使う。
+description: investingOSの作業状態をdev/audit/HANDOFF.mdに追記し、次のセッション（ClaudeまたはAntigravity）が再開できるようにする。複数回にまたがる作業の区切りで使う。
 ---
 
 # /handoff — 引き継ぎの追記
@@ -10,7 +10,7 @@ description: investingOSの作業状態をdev/audit/HANDOFF.mdに追記し、次
 1. `python3 app/store.py read` で現在の version を取る。
 2. `dev/audit/HANDOFF.md` の先頭の区切り線の直後に、新しいエントリを追記する（過去のエントリは消さない）。
    ```
-   ## <ISO日時+09:00>｜actor=ai:Codex｜<作業名>
+   ## <ISO日時+09:00>｜actor=ai:antigravity｜<作業名>
    - 状態：IN_PROGRESS / WAITING_USER / WAITING_AGENT / DONE
    - 読んだ版：<version>
    - 完了したこと：（成果物のパス）

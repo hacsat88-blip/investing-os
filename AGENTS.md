@@ -1,14 +1,16 @@
-# investingOS — Codex入口
+# investingOS — Antigravity入口（Claude ↔ Antigravity 相互運用）
 
 長期投資の調査・保有管理システム。共通ルールは `../AGENTS.md`（さとし管理）にあり、ここにはinvestingOS固有の規則だけを書く。
+Codex運用は終了し、Claude（Claude Code / Cowork / chat）と Antigravity の相互運用を行う。
 
 ## 最初に読む
-1. `PROJECT-INSTRUCTIONS.md`（業務と必須境界。Codex.ai Projectの指示欄と同じ文面）
+1. `PROJECT-INSTRUCTIONS.md`（業務と必須境界）
 2. 依頼に対応する `knowledge/` の文書（下の表）
 3. 続きの作業なら `dev/audit/HANDOFF.md` の最新エントリ。**ただし数値は必ずCSVから読み直す**
 
 ## 実行環境の判定
-最初に `python3 app/store.py read` を実行する。成功すればローカル実行、失敗すればチャット実行として振る舞う（PROJECT-INSTRUCTIONS「実行環境の区分」）。actorは Codex=`ai:Codex`、Cowork=`ai:Codex-cowork`。
+最初に `python3 app/store.py read` を実行する。成功すればローカル実行、失敗すればチャット実行として振る舞う（PROJECT-INSTRUCTIONS「実行環境の区分」）。
+actorは Antigravity=`ai:antigravity`、Claude=`ai:claude-code` / `ai:claude-cowork` / `ai:claude-chat`。提案理由やHANDOFFに記載する。
 
 ## 依頼と手順
 | 依頼 | コマンド | 読む文書 |
