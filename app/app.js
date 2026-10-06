@@ -1,4 +1,4 @@
-let state, tables, current='holdings', dirty=false, actor='USER', pending=null;
+let state, tables, current='holdings', dirty=false, actor='USER', pending=null, sortKey=null, sortAsc=true;
 const $=id=>document.getElementById(id);
 const names={theses:'投資仮説',research:'調査課題',exposures:'構成内訳',plans:'比較案',plan_items:'比較明細',checks:'点検記録',quotes:'相場台帳',holdings:'保有台帳',targets:'目標配分',analyses:'分析ノート',sources:'出典',news:'ニュース・PTS',decisions:'判断履歴'};
 const labels={holdingId:'保有ID',reason:'保有理由',expectation:'期待する変化',metric:'確認指標',baseline:'前回値・時点',latest:'最新値・時点',threshold:'判定基準',change:'前回からの変化',reviewOn:'次回確認日',reviewedAt:'確認日時',thesisStatus:'仮説状態',question:'調査課題',decisionLink:'判断への関係',impact:'判断影響1〜5',uncertainty:'不確実性1〜5',urgency:'緊急度1〜5',effort:'負担1〜5',dueOn:'調査期限',researchStatus:'調査状態',nextAction:'次の調査',result:'判明したこと',dimension:'内訳分類',component:'構成項目',mode:'案の種別',baselineHash:'比較元ハッシュ',additionalCashJpy:'追加資金・円',feesJpy:'費用仮定・円',taxJpy:'税仮定・円',benefit:'期待効果',risk:'リスク',assumptions:'前提',invalidation:'見直す条件',planId:'比較案ID',targetValueJpy:'提案評価額・円',subject:'点検対象',checkedAt:'確認日時',checkStatus:'点検状態',detail:'確認内容',kindQuote:'相場種別',value:'相場の値',id:'固定ID',scope:'区分',bucket:'枠',code:'コード',name:'銘柄・商品名',account:'口座区分',currency:'通貨',quantity:'数量',avgCost:'平均取得単価',costBasisJpy:'取得原価・円',price:'価格',fx:'円換算FX',priceAsOf:'価格基準日時',marketValueJpy:'報告評価額・円',pnlJpy:'報告損益・円',tags:'リスクタグ',quality:'品質',sourceId:'出典ID',note:'備考',role:'役割',weight:'目標比率・小数',status:'状態',title:'タイトル',asOf:'基準日時',conclusion:'結論',rationale:'根拠',counterCase:'反対仮説',falsifier:'撤回条件',nextReview:'次回確認',kind:'出典種別',uri:'URL・資料名',publishedAt:'公表日時',retrievedAt:'取得日時',dataAsOf:'データ基準日時',confidence:'確度',pts:'PTS価格',ptsAsOf:'PTS時刻',ptsVolume:'PTS出来高',close:'日中終値',closeAsOf:'終値基準日時',stars:'重要度・星1〜5',direction:'影響の方向',summary:'内容',reviewAction:'確認すべき点',proposal:'提案',approvalEvidence:'承認根拠',executionEvidence:'実行根拠'};
@@ -13,17 +13,67 @@ function modified(){dirty=true;$('saveState').textContent='未保存の編集あ
 async function api(path,body){const r=await fetch(path,body?{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':state.token},body:JSON.stringify(body)}:{});const data=await r.json();if(!r.ok)throw Error(data.error||'読込失敗');return data;}
 function action(fn){return async(...args)=>{try{await fn(...args);}catch(e){message(e.message);}};}
 async function load(){state=await api('/api/state');tables=structuredClone(state.tables);dirty=false;actor='USER';pending=null;render();message();}
-function dashboard(){const s=state.summary;$('cards').replaceChildren();
- [['登録資産の参考小計',money(s.subtotal),s.missing?`評価額未算定 ${s.missing}件。構成比を表示しません。`:'時点混在・現金などの網羅性は未確認'],['課税口座',money(s.taxable),'年金コアと分離して表示'],['年金コア / iDeCo',money(s.ideco),'保有方針：スイッチングなし'],['算定できた円建て損益',money(s.pnlSubtotal),`損益未確定 ${s.pnlMissing}件。総損益ではありません`]].forEach(([title,value,note])=>{const n=el('article',undefined,'card');n.append(el('small',title),el('strong',value),el('p',note));$('cards').append(n);});
- $('allocation').replaceChildren();const groups={};s.rows.forEach(r=>{if(r.value!==null)groups[r.bucket]=(groups[r.bucket]||0)+r.value;});Object.entries(groups).sort((a,b)=>b[1]-a[1]).forEach(([label,value])=>{const row=el('div',undefined,'barrow'),track=el('div',undefined,'track'),fill=el('div',undefined,'fill');fill.style.width=s.missing?'0%':(s.subtotal?100*value/s.subtotal:0)+'%';track.append(fill);row.append(el('span',label),track,el('span',money(value)));$('allocation').append(row);});
+function renderPendingBanner(){
+ const banner=$('pendingBanner');if(!banner)return;
+ const p=state.pendingProposal;
+ if(!p){banner.style.display='none';return;}
+ banner.style.display='flex';banner.className='pending-banner';banner.replaceChildren();
+ const content=el('div',undefined,'pending-banner-content');
+ content.append(el('span','未反映の更新案あり','pending-badge'),el('strong',p.filename),el('span',p.reason||''));
+ const btn=el('button','差分を確認して保存','primary');
+ btn.onclick=action(async()=>{
+  if(dirty&&!confirm('現在の未保存編集を更新案に置き換えますか？'))return;
+  tables=structuredClone(p.tables);actor='AI';
+  $('reason').value=p.reason||('更新案を適用: '+p.filename);
+  modified();grid();await review();
+ });
+ banner.append(content,btn);
+}
+function dashboard(){renderPendingBanner();const s=state.summary;$('cards').replaceChildren();
+ const costTotal=s.subtotal-(s.pnlSubtotal||0);
+ const pnlPct=(costTotal>0&&s.pnlSubtotal!==null)?((s.pnlSubtotal/costTotal)*100).toFixed(1):null;
+ [['登録資産の参考小計',money(s.subtotal),s.missing?`評価額未算定 ${s.missing}件。構成比を表示しません。`:'時点混在・現金などの網羅性は未確認'],['課税口座',money(s.taxable),'年金コアと分離して表示'],['年金コア / iDeCo',money(s.ideco),'保有方針：スイッチングなし'],['算定できた円建て損益',money(s.pnlSubtotal),`損益未確定 ${s.pnlMissing}件。総損益ではありません`]].forEach(([title,value,note],idx)=>{
+  const n=el('article',undefined,'card'),strong=el('strong',value);
+  if(idx===3&&s.pnlSubtotal!==null){
+   if(s.pnlSubtotal>0){strong.className='pos';if(pnlPct)strong.append(el('span',`+${pnlPct}%`,'badge-chip pos'));}
+   else if(s.pnlSubtotal<0){strong.className='neg';if(pnlPct)strong.append(el('span',`${pnlPct}%`,'badge-chip neg'));}
+  }
+  n.append(el('small',title),strong,el('p',note));$('cards').append(n);
+ });
+ $('allocation').replaceChildren();const groups={};s.rows.forEach(r=>{if(r.value!==null)groups[r.bucket]=(groups[r.bucket]||0)+r.value;});Object.entries(groups).sort((a,b)=>b[1]-a[1]).forEach(([label,value])=>{
+  const row=el('div',undefined,'barrow'),track=el('div',undefined,'track'),fill=el('div',undefined,'fill');
+  const ratio=s.subtotal?Math.round(1000*value/s.subtotal)/10:0;
+  fill.style.width=s.missing?'0%':(ratio)+'%';track.append(fill);
+  const valSpan=el('span');valSpan.append(document.createTextNode(money(value)+' '));
+  valSpan.append(el('span',`(${ratio}%)`,'pct'));
+  row.append(el('span',label),track,valSpan);$('allocation').append(row);
+ });
  $('issues').replaceChildren(...s.issues.map(t=>el('li',t)));$('issues').append(el('li','価格・評価基準日：'+s.dates.join(' / ')),el('li','銘柄・価格は持込CSVの記載。現在値・企業名の外部照合は未実施です。'));
  $('saveState').textContent='Mac保存済み · '+new Date(state.meta.savedAt).toLocaleString('ja-JP');
  $('backupInfo').textContent='保存ごとに全CSVと変更履歴をZIP保存。保存先：'+state.backupPath;
  $('history').replaceChildren();state.history.slice(0,30).forEach(h=>{const row=el('div');row.append(el('span',new Date(h.savedAt).toLocaleString('ja-JP')+' · '+h.reason));const b=el('button','この版を確認');b.onclick=action(async()=>{if(dirty&&!confirm('未保存の編集を破棄して復元候補を読み込みますか？'))return;const r=await api('/api/restore-preview',{target:h.version});tables=r.tables;actor='RESTORE';$('reason').value='過去版から復元: '+h.version;modified();grid();await review();});row.append(b);$('history').append(row);});
 }
-function render(){dashboard();renderInsights();$('tabs').replaceChildren();for(const key of Object.keys(names)){const b=el('button',names[key],key===current?'active':'');b.onclick=()=>{current=key;$('search').value='';grid();[...$('tabs').children].forEach((n,i)=>n.className=Object.keys(names)[i]===key?'active':'');};$('tabs').append(b);}grid();}
-function grid(){const columns=current==='holdings'?'code name bucket quantity avgCost price currency fx priceAsOf marketValueJpy costBasisJpy pnlJpy quality tags note scope account sourceId id'.split(' '):state.schemas[current];$('tableTitle').textContent=names[current];$('tableHint').textContent=hints[current];const tr=el('tr');columns.forEach(c=>tr.append(el('th',labels[c]||c)));tr.append(el('th','操作'));$('head').replaceChildren(tr);$('body').replaceChildren();const filter=$('search').value.toLowerCase();
- tables[current].forEach((row,index)=>{if(filter&&!Object.values(row).join(' ').toLowerCase().includes(filter))return;const tr=el('tr');columns.forEach(c=>{const td=el('td');let choices=enums[c];if(c==='status')choices=current==='targets'?['PROPOSED','ACTIVE','INACTIVE']:['analyses','plans'].includes(current)?['PROPOSED','APPROVED']:['PROPOSED','APPROVED','EXECUTED'];let input;if(choices){input=el('select');choices.forEach(v=>{const o=el('option',displayValue[v]||v);o.value=v;input.append(o);});}else input=el(long.has(c)||c==='name'?'textarea':'input');input.value=row[c];input.title=row[c];input.setAttribute('aria-label',names[current]+' '+(labels[c]||c)+' '+row.id);if((c==='id'&&state.tables[current].some(r=>r.id===row.id))||(current==='decisions'&&state.tables.decisions.some(r=>r.id===row.id)))input.disabled=true;input.oninput=()=>{row[c]=input.value;modified();};td.append(input);tr.append(td);});const td=el('td'),b=el('button','削除','delete');b.disabled=current==='decisions'&&state.tables.decisions.some(r=>r.id===row.id);b.onclick=()=>{tables[current].splice(index,1);modified();grid();};td.append(b);tr.append(td);$('body').append(tr);});
+function render(){dashboard();renderInsights();$('tabs').replaceChildren();for(const key of Object.keys(names)){const b=el('button',names[key],key===current?'active':'');b.onclick=()=>{current=key;sortKey=null;sortAsc=true;$('search').value='';grid();[...$('tabs').children].forEach((n,i)=>n.className=Object.keys(names)[i]===key?'active':'');};$('tabs').append(b);}grid();}
+function grid(){const columns=current==='holdings'?'code name bucket quantity avgCost price currency fx priceAsOf marketValueJpy costBasisJpy pnlJpy quality tags note scope account sourceId id'.split(' '):state.schemas[current];$('tableTitle').textContent=names[current];$('tableHint').textContent=hints[current];
+ const tr=el('tr');
+ columns.forEach(c=>{
+  const th=el('th',labels[c]||c,'sortable');
+  if(sortKey===c){th.classList.add('active');th.append(el('span',sortAsc?' ▲':' ▼','sort-icon'));}
+  else{th.append(el('span',' ⇅','sort-icon'));}
+  th.onclick=()=>{if(sortKey===c)sortAsc=!sortAsc;else{sortKey=c;sortAsc=true;}grid();};
+  tr.append(th);
+ });
+ tr.append(el('th','操作'));$('head').replaceChildren(tr);$('body').replaceChildren();const filter=$('search').value.toLowerCase();
+ let rowsWithIdx=tables[current].map((row,index)=>({row,index}));
+ if(sortKey){
+  rowsWithIdx.sort((a,b)=>{
+   let va=a.row[sortKey]??'',vb=b.row[sortKey]??'';
+   let na=parseFloat(va),nb=parseFloat(vb);
+   if(!isNaN(na)&&!isNaN(nb)&&String(na)===String(va).trim()&&String(nb)===String(vb).trim()){return sortAsc?na-nb:nb-na;}
+   return sortAsc?String(va).localeCompare(String(vb),'ja'):String(vb).localeCompare(String(va),'ja');
+  });
+ }
+ rowsWithIdx.forEach(({row,index})=>{if(filter&&!Object.values(row).join(' ').toLowerCase().includes(filter))return;const tr=el('tr');columns.forEach(c=>{const td=el('td');let choices=enums[c];if(c==='status')choices=current==='targets'?['PROPOSED','ACTIVE','INACTIVE']:['analyses','plans'].includes(current)?['PROPOSED','APPROVED']:['PROPOSED','APPROVED','EXECUTED'];let input;if(choices){input=el('select');choices.forEach(v=>{const o=el('option',displayValue[v]||v);o.value=v;input.append(o);});}else input=el(long.has(c)||c==='name'?'textarea':'input');input.value=row[c];input.title=row[c];input.setAttribute('aria-label',names[current]+' '+(labels[c]||c)+' '+row.id);if((c==='id'&&state.tables[current].some(r=>r.id===row.id))||(current==='decisions'&&state.tables.decisions.some(r=>r.id===row.id)))input.disabled=true;if(current==='holdings'&&c==='pnlJpy'){const pnlNum=parseFloat(row[c]);if(!isNaN(pnlNum)){if(pnlNum>0)input.classList.add('pos');else if(pnlNum<0)input.classList.add('neg');}}input.oninput=()=>{row[c]=input.value;modified();};td.append(input);if(current==='holdings'&&c==='pnlJpy'){const pnlNum=parseFloat(row.pnlJpy),costNum=parseFloat(row.costBasisJpy);if(!isNaN(pnlNum)&&!isNaN(costNum)&&costNum>0){const pctVal=((pnlNum/costNum)*100).toFixed(1);const chip=el('span',(pnlNum>0?`+${pctVal}%`:`${pctVal}%`),'badge-chip '+(pnlNum>=0?'pos':'neg'));td.append(chip);}}tr.append(td);});const td=el('td'),b=el('button','削除','delete');b.disabled=current==='decisions'&&state.tables.decisions.some(r=>r.id===row.id);b.onclick=()=>{tables[current].splice(index,1);modified();grid();};td.append(b);tr.append(td);$('body').append(tr);});
 }
 async function review(){const result=await api('/api/preview',{version:state.version,tables});if(!result.changes.length){message('変更はありません');return;}pending=structuredClone(tables);$('diff').replaceChildren();result.changes.forEach(c=>{const box=el('div');box.append(el('h3',names[c.table]+' / '+c.id+(c.before?'':' · 追加')+(c.after?'':' · 削除')));const lines=[];for(const key of state.schemas[c.table]){const a=c.before?.[key]??'（行なし）',b=c.after?.[key]??'（行なし）';if(a!==b)lines.push((labels[key]||key)+': '+(a||'空欄')+' → '+(b||'空欄'));}box.append(el('pre',lines.join('\n')));$('diff').append(box);});$('diff').append(el('p','保存後の登録評価額の参考小計：'+money(result.summary.subtotal)+' ／ 損益未確定 '+result.summary.pnlMissing+'件'));$('dialog').showModal();}
 function download(name,value,type='application/json'){const blob=new Blob([typeof value==='string'?value:JSON.stringify(value,null,2)],{type});const url=URL.createObjectURL(blob),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

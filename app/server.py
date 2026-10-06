@@ -15,6 +15,26 @@ from catalog import catalog
 STORE=Store()
 TOKEN=secrets.token_urlsafe(32)
 
+def pending_proposal(store, version):
+    pdir = store.root / 'proposals'
+    if not pdir.is_dir():
+        return None
+    for p in sorted(pdir.glob('*.json'), key=lambda x: x.stat().st_mtime, reverse=True):
+        if p.name.startswith('.'):
+            continue
+        try:
+            data = json.loads(p.read_text(encoding='utf-8'))
+            if data.get('version') == version and 'tables' in data:
+                return {
+                    'filename': p.name,
+                    'reason': data.get('reason', ''),
+                    'tables': data['tables'],
+                    'version': data['version']
+                }
+        except Exception:
+            continue
+    return None
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self,*args):
         pass
@@ -47,7 +67,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(200,(Path(__file__).parent/name).read_bytes(),kind)
             if path=='/api/state':
                 state=STORE.read()
-                state.update({'token':TOKEN,'schemas':SCHEMAS,'history':STORE.history(),'backupPath':str(STORE.root/'backups'),'catalog':catalog()})
+                state.update({'token':TOKEN,'schemas':SCHEMAS,'history':STORE.history(),'backupPath':str(STORE.root/'backups'),'catalog':catalog(),'pendingProposal':pending_proposal(STORE,state['version'])})
                 state['insights']={'queue':research_queue(state['tables']),'risk':risks(state['tables']),'comparison':compare(state['tables']),'health':health(STORE,state),'quotes':quote_status(state['tables'])}
                 return self.send(200,state)
             if path=='/api/export':

@@ -205,3 +205,31 @@ dialog .actions{margin-top:20px;justify-content:flex-end}
   main{padding:20px 5% 56px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- v4.7 UI/UX Enhancements ---------- */
+.pos{color:var(--ok)!important;font-weight:600}
+.neg{color:var(--danger)!important;font-weight:600}
+.badge-chip{
+  display:inline-block;padding:2px 7px;border-radius:6px;
+  font-size:11px;font-weight:600;margin-left:6px;vertical-align:middle;
+  font-variant-numeric:tabular-nums;
+}
+.badge-chip.pos{background:rgba(46,107,79,.12);color:var(--ok)}
+.badge-chip.neg{background:rgba(143,68,54,.12);color:var(--danger)}
+.pending-banner{
+  background:var(--surface-2);border:1.5px solid var(--brand-3);
+  border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  box-shadow:var(--shadow);
+}
+.pending-banner-content{display:flex;align-items:center;gap:12px;font-size:13px;flex-wrap:wrap}
+.pending-badge{
+  background:var(--brand-2);color:#fff;padding:4px 10px;
+  border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap;
+}
+.pending-banner button{flex-shrink:0}
+th.sortable{cursor:pointer;user-select:none;transition:background .15s ease}
+th.sortable:hover{background:var(--surface-2);color:var(--brand-2)}
+.sort-icon{font-size:10px;margin-left:4px;opacity:.4}
+th.sortable.active .sort-icon{opacity:1;color:var(--brand-3)}
+.barrow .pct{font-size:11px;color:var(--ink-3);margin-left:6px;font-variant-numeric:tabular-nums}
