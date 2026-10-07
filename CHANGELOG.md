@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v4.8（2026-10-07）連鎖スクリーニング `chn/` 追加・Antigravity併用
+- 追加：`knowledge/29-chain-screening.md`、`.claude/skills/chn/SKILL.md`、`.agents/skills/chn`（同SKILL.mdへのシンボリックリンク）。テーマ・ニュース・銘柄を起点に、1次の先にある不可欠な供給者（2次・3次）を一次資料で確かめ、結びつき・確度・業績への効き・先回り余地の星で示す（合計点は作らない）。東証限定。
+- 変更：Google Antigravity を併用環境として追加（actor=ai:antigravity、作業範囲は調査系と提案JSONまで）。`AGENTS.md` をAntigravity入口へ更新。PROJECT-INSTRUCTIONS.md（見出し・対象AI・実行環境・actor・引き継ぎ・業務3・会話コマンド・米国非適用・呼び出し口）、CLAUDE.md、knowledge 20・40・70。
+- アプリのコード、テスト、台帳CSV・current.json・proposals は変更なし。v1は手順のみで実行器は無い。
+
 ## v4.7（2026-09-30）Claude一本化・さとし管理への移動
 - 運用AIをClaudeに一本化。指示文・knowledge（10・30・40・70・80）から Codex・ChatGPT の手順を削除し、実行環境を「ローカル実行（Claude Code・Cowork）」と「チャット実行（claude.ai）」に整理。actorは ai:claude-code / ai:claude-cowork / ai:claude-chat。
 - 削除：`_setup/investingOS_ChatGPT用/`（ChatGPT入口）、`v4.6-dashboard/`（app/へ統合済みの作業用コピー）、`dev/work/`（v4.3移行の使い捨てスクリプト）、`_このフォルダについて.md`（README.mdへ統合）。削除前の状態はタグ `pre-claude-only-20260930` とgit履歴に残る。

@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-07T23:20:00+09:00｜actor=ai:antigravity｜連鎖スクリーニング chn/ の追加とAntigravity併用設定（v4.8）完了
+- 状態：WAITING_USER
+- 読んだ版：0818968ee041439e810caaa34c413ea9
+- 完了したこと：knowledge/29-chain-screening.md v1.0 を有効化。PROJECT-INSTRUCTIONS.md（v4.8復元）、.claude/skills/chn/SKILL.md新設、.agents/skills/chn（シンボリックリンク設置）、AGENTS.md、CLAUDE.md、knowledge 20・40・70、CHANGELOG.md を反映。テスト全件OK（test_upgrades 36件, test_screening 16件）、台帳ハッシュ（d4c33942…）不変。ブランチ fix/add-chn を main へマージ。
+- 残作業：ユーザー：①git push origin main、②claude.ai Projectの指示欄の差し替え（PROJECT-INSTRUCTIONS.mdの内容）、③両環境での `chn/ 不斉合成` の受入確認。チャット実行：依頼があればProject資料へ29を追加。
+- 未確定事項：星の基準は初回運用後に見直す可能性がある。アプリの実行器は作らない。
+- 触らないもの：`data/`、`backups/`、`proposals/`、既存のHANDOFF・DEPLOYMENT-STATUSの行。
+
 ## 2026-10-06T22:25:00+09:00｜actor=ai:antigravity｜UI/UX改善（損益カラー/騰落率バッジ/比率表示/列ソート/提案バナー）反映および米国株換算確認 完了
 - 状態：WAITING_USER
 - 読んだ版：0818968ee041439e810caaa34c413ea9

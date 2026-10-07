@@ -7,21 +7,25 @@
 2. 依頼に対応する `knowledge/` の文書（下の表）
 3. 続きの作業なら `dev/audit/HANDOFF.md` の最新エントリ。**ただし数値は必ずCSVから読み直す**
 
+Google Antigravity は `AGENTS.md` を入口にする（作業範囲は同ファイルの表）。規則は同じ。
+
 ## 実行環境の判定
-最初に `python3 app/store.py read` を実行する。成功すればローカル実行、失敗すればチャット実行として振る舞う（PROJECT-INSTRUCTIONS「実行環境の区分」）。actorは Claude Code=`ai:claude-code`、Cowork=`ai:claude-cowork`。
+最初に `python3 app/store.py read` を実行する。成功すればローカル実行、失敗すればチャット実行として振る舞う（PROJECT-INSTRUCTIONS「実行環境の区分」）。actorは Claude Code=`ai:claude-code`、Cowork=`ai:claude-cowork`、chat=`ai:claude-chat`。
 
 ## 依頼と手順
 | 依頼 | コマンド | 読む文書 |
 |---|---|---|
-| 監視の1回分 | `/monitor <slot>` | 30・31・70 |
 | 保有のテキスト・スクショ | `/holdings` | 10 |
 | 銘柄・ETF・投信の調査 | `/research <銘柄>` | 20・40・27 |
 | 高回転スクリーニング | `/scr` または先頭行 `scr/` | 25 |
 | 財務スクリーニング | `/fnd` または先頭行 `fnd/` | 26 |
+| 関連銘柄の連鎖探索 | `/chn` または先頭行 `chn/` | 29・20・40 |
 | 相場台帳・価格反映 | — | 28 |
 | 提案比較・調査優先順位 | — | 60 |
 | 作業の引き継ぎ | `/handoff` | 70 |
 | コード・ナレッジの改修 | `/repo-change` | 80・50 |
+
+※監視機能（30・31）は2026-10-06に完全除去済み。
 
 ## してはいけないこと
 - `data/` `backups/` を直接編集しない。台帳の変更は `proposals/` の提案JSON → `python3 app/store.py proposal` → ユーザーが画面で保存、の経路だけ。
@@ -32,6 +36,6 @@
 
 ## テスト
 ```
-python3 dev/tests/test_upgrades.py && python3 dev/tests/test_screening.py && python3 dev/tests/test_monitor_view.py
+python3 dev/tests/test_upgrades.py && python3 dev/tests/test_screening.py
 ```
 改修は `main` で直接行わず、`fix/<内容>` ブランチで行う。テスト前後で `data/current.json` のハッシュが変わらないこと。

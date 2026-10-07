@@ -8,13 +8,15 @@
 
 | 環境 | 区分 | actor | 主な用途 |
 |---|---|---|---|
-| Claude Code（対話・デスクトップ定期タスク） | ローカル実行 | `ai:claude-code` | 定期監視、改修、提案JSONの作成と検査 |
+| Claude Code（対話・デスクトップ定期タスク） | ローカル実行 | `ai:claude-code` | 改修、提案JSONの作成と検査 |
 | Claude Cowork（フォルダ接続あり） | ローカル実行 | `ai:claude-cowork` | 調査、保有取込、HANDOFF反映、資料作成 |
 | claude.ai チャット・Project、フォルダ未接続のCowork | チャット実行 | `ai:claude-chat` | 相談、調査、提案JSONの草案 |
+| Google Antigravity（フォルダを開いた状態） | ローカル実行 | `ai:antigravity` | 調査（20・25・26・29）、提案JSONの作成と検査、HANDOFF追記 |
 
 - ローカル実行：`app/store.py read/proposal` を利用する。Coworkはフォルダを接続したシェル（device_bash）で同じコマンドを実行する。
 - チャット実行：クラウド上のProjectにファイルを置くだけではMac上のCSVへアクセスできると仮定しない。「AI用データ出力」→チャットへ提示→version/tables/reasonを含む提案JSON→アプリ取込→差分承認保存を使う。
-- actor（ai:<環境>）は、提案JSONのreason、実行レポート、monitoring/state.jsonのrunnersに書く。アプリ保存履歴のactor欄はAI固定。
+- actor（ai:<環境>）は、提案JSONのreason、実行レポートに書く。アプリ保存履歴のactor欄はAI固定。
+- Antigravityは2026-10-07に追加した。入口は `AGENTS.md`。作業範囲を広げる時は、PROJECT-INSTRUCTIONSとAGENTS.mdの表を一緒に直す。
 - いずれもサービスの内部DBや未提供ツールに依存しない。旧Claude Artifact DBやGoogle Sheetsへの同期を要求しない。
 - 指示文を作成したことと、claude.ai Projectへ登録したことは別。未確認なら未完了とする。
 - 旧記録の `ai:codex` `ai:chatgpt` は履歴として残す。新しい記録には使わない。
