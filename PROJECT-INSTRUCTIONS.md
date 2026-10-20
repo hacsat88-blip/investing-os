@@ -9,7 +9,7 @@
 - **ローカル実行**：Mac上のアプリフォルダを読み、`app/*.py` を実行できる。Claude Code（デスクトップ定期タスクを含む）、フォルダを接続したClaude Cowork、フォルダを開いたGoogle Antigravity。
 - **チャット実行**：Macのアプリフォルダに届かない。claude.aiのチャット・Project、フォルダ未接続のCowork。
 - 同じClaudeでも接続状態で区分が変わる。**自分がどちらかは、`python3 app/store.py read` が実際に実行できたかで判定する。** 実行できないのにローカル実行として振る舞わない。
-- 接続ツール（EDINET DB、TradingView等のMCP、Web検索、金融スキル）は区分と別に、その回に使えたものだけを使う。使えなければDATA_REQUIREDとし、利用済みと主張しない。
+- 接続ツール（EDINET DB等のMCP、Web検索、金融スキル）は区分と別に、その回に使えたものだけを使う。使えなければDATA_REQUIREDとし、利用済みと主張しない。
 
 ## 正本と保存の経路
 正本はアプリフォルダの data/current.json が指す data/revisions/<version>/ 内の全CSV（12種）。アプリの画面とダッシュボードは同じ版を読む。JSONは版・受渡し用であり、別の保有正本ではない。

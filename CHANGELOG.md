@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2026-10-20 TradingView MCP廃止・Google Finance等のWeb経路へ移行
+- 変更：TradingView MCP の使用を廃止し、日本株・米国株・為替の主経路（第1優先）を Google Finance、照合・フォールバック（第2）を Yahoo!ファイナンス／Yahoo Finance・トレーダーズ・ウェブとする構成へ改訂（`knowledge/40-data-sources.md` v4.6、`knowledge/28-quotes.md`、`knowledge/20-security-analysis.md`、`knowledge/29-chain-screening.md`、`knowledge/10-portfolio-operations.md`、`AGENTS.md`、`PROJECT-INSTRUCTIONS.md`）。過去の疎通記録（40 §4、`dev/audit/`）は履歴として保持。
+
 ## v4.8（2026-10-07）連鎖スクリーニング `chn/` 追加・Antigravity併用
 - 追加：`knowledge/29-chain-screening.md`、`.claude/skills/chn/SKILL.md`、`.agents/skills/chn`（同SKILL.mdへのシンボリックリンク）。テーマ・ニュース・銘柄を起点に、1次の先にある不可欠な供給者（2次・3次）を一次資料で確かめ、結びつき・確度・業績への効き・先回り余地の星で示す（合計点は作らない）。東証限定。
 - 変更：Google Antigravity を併用環境として追加（actor=ai:antigravity、作業範囲は調査系と提案JSONまで）。`AGENTS.md` をAntigravity入口へ更新。PROJECT-INSTRUCTIONS.md（見出し・対象AI・実行環境・actor・引き継ぎ・業務3・会話コマンド・米国非適用・呼び出し口）、CLAUDE.md、knowledge 20・40・70。

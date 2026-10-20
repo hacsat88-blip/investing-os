@@ -30,7 +30,7 @@
 ※監視機能（30・31）は2026-10-06に完全除去済み。
 
 ## 接続ツール
-EDINET DB・TradingView は Antigravity の MCP 設定に別途追加する（claude.ai の接続は引き継がれない）。未設定の回は「未接続」と書き、Web検索と発行体IRで代替する（40 §2）。
+EDINET DB は Antigravity の MCP 設定に別途追加する（claude.ai の接続は引き継がれない。TradingView MCP は2026-10-20に廃止し、Google Finance・Yahoo!ファイナンス等のWeb経路へ移行）。未設定の回は「未接続」と書き、Web検索と発行体IRで代替する（40 §2）。
 
 ## してはいけないこと
 - `data/` `backups/` を直接編集しない。台帳の変更は `proposals/` の提案JSON → `python3 app/store.py proposal` → ユーザーが画面で保存、の経路だけ。
