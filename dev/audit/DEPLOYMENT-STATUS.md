@@ -34,5 +34,7 @@ AI運用：ChatGPTを原則とする指示へ変更済み。PROJECT-INSTRUCTIONS
 - 2026-10-06｜監視機能（monitoring）の完全除去：app/runner_guard.py・app/monitor_view.py・test_monitor_view.py・skills/monitor・knowledge 30/31・monitoring/ をアーカイブへ退避、insights健康表示から監視を除去、README・AGENTS・PROJECT-INSTRUCTIONS更新｜`test_upgrades.py` 36件OK、`test_screening.py` 16件OK、current.json ハッシュ不変（d4c33942…）｜backup: `0818968ee041439e810caaa34c413ea9.zip`｜merge: `c9c2635`｜ai:antigravity
 - 2026-10-06｜UI/UX改善（損益の緑/赤カラー＆騰落率バッジ、枠別アロケーション比率%、テーブルヘッダークリックによる列ソート、未反映提案のワンクリック取込バナー、フッターv4.7表記更新）｜`test_upgrades.py` 36件OK、`test_screening.py` 16件OK、current.json ハッシュ不変（d4c33942…）｜backup: `0818968ee041439e810caaa34c413ea9.zip`｜merge: `2dad2d6`｜ai:antigravity
 - 2026-10-07｜v4.8 連鎖スクリーニング chn/ 追加・Antigravity併用設定（29有効化、skills/chn設置、PROJECT-INSTRUCTIONS.md・AGENTS.md・CLAUDE.md・20・40・70・CHANGELOG更新）｜`test_upgrades.py` 36件OK、`test_screening.py` 16件OK、current.json ハッシュ不変（d4c33942…）｜backup: `0818968ee041439e810caaa34c413ea9.zip`｜ai:antigravity
+- 2026-10-20｜TradingView MCP廃止・Google Finance等のWeb経路へ移行（40 v4.6・28・20・29・10・AGENTS.md・PROJECT-INSTRUCTIONS.md・CHANGELOG.md更新）｜`test_upgrades.py` 36件OK、`test_screening.py` 16件OK、current.json ハッシュ不変（d4c33942…）｜backup: `0818968ee041439e810caaa34c413ea9.zip`｜merge: `133a425`｜ai:antigravity
+
 
 
